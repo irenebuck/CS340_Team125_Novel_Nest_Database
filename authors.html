@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Authors</title>
+</head>
+
+<body>
+    <h1>Novel Nest - Used Book Sellers</h1>
+
+    <nav>
+        <a href="books.html">Books</a>
+        |
+        <a href="customers.html">Customers</a>
+        |
+        <a href="stores.html">Stores</a>
+        |
+        <a href="authors.html">Authors</a>
+        |
+        <a href="sales.html">Sales</a>
+    </nav>
+    <p>&nbsp;</p>
+    
+    
+    <div id="authors">
+        <table border="1" cellpadding="5">
+            <th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            </th>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                        <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>1</td>
+                <td>Wanda</td>
+                <td>Dann</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                        <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>2</td>
+                <td>Stephen</td>
+                <td>Cooper</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                        <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>3</td>
+                <td>Randy</td>
+                <td>Pausch</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                    <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>4</td>
+                <td>Stephen</td>
+                <td>Kochan</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                    <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>5</td>
+                <td>Marijn</td>
+                <td>Haverbeke</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                    <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>6</td>
+                <td>Michael</td>
+                <td>Kerrisk</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                    <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>7</td>
+                <td>Simson</td>
+                <td>Garfinkel</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                                <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>8</td>
+                <td>Gene</td>
+                <td>Spefford</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                                            <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>9</td>
+                <td>Alan</td>
+                <td>Schwartz</td>
+            </tr>
+            <tr>
+                <!-- <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
+                                                            <td><a href="#" onclick="deleteCustomer('this.customer_id')">Delete</a></td> -->
+                <td>10</td>
+                <td>Jeffrey</td>
+                <td>Zaslow</td>
+            </tr>
+        </table>
+        <br>
+    </div>
+    
+    
+    <div id="insertStore">
+        <form method="POST" id="addAuthor">
+            <fieldset class="fields">
+            <legend><strong>Add An Author</strong></legend>
+                <label> First Name </label> <input type="text" name="authorfName">
+                <label> Last Name</label> <input type="text" name="authorlName">
+            <input class="btn" type="submit" id="addAuthorBtn" value="Add Author">
+            <input class="btn" type="button" value="Cancel" onClick="showAuthors()">
+            </fieldset>
+        </form>
+    </div>
+</body>    
+</html>

@@ -99,8 +99,11 @@ VALUES (:book, :author);
 --- DELETES ---
 
 -- delete a book from Books (this delete will require a query getting a book_id)
+-- deleting a book cascades to deleting the associated book_has_author entry
 DELETE FROM Books
 WHERE book_id = :book_id;
+DELETE FROM Book_has_Authors
+WHERE book = :book_id;
 
 --- UPDATES ---
 

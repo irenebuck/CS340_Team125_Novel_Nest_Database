@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Authors</title>
+</head>
+
+<body>
+    <h1>Novel Nest - Used Book Sellers</h1>
+
+    <nav>
+        <a href="books.html">Books</a>
+        |
+        <a href="customers.html">Customers</a>
+        |
+        <a href="stores.html">Stores</a>
+        |
+        <a href="authors.html">Authors</a>
+        |
+        <a href="sales.html">Sales</a>
+        |
+        <a href="books_has_authors.html">Book &amp; Author</a>
+        |
+        <a href="sales_has_books.html">Sales With Books</a>
+    </nav>
+    <a href="sales_has_books.html"></a>
+    <br>
+    <div id="purchaseSaleBook">
+        <table border="1" cellpadding="5">
+            <th>Sale With Books ID</th>
+            <th>Sale ID</th>
+            <th>Book ID</th>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>3</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>4</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>5</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>5</td>
+                <td>1</td>
+            </tr>
+        </table>
+        <br>
+    </div>
+
+
+    <div id="insertSale">
+        <form method="POST" id="addSalWithBook">
+            <fieldset class="fields">
+                <legend><strong>Add Book Sale</strong></legend>
+                <label> Sale ID/ Transaction Number </label> <select type="text" name="sale_id">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <label> Book ID </label> <select type="text" name="book_id">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <input class="btn" type="submit" id="addSaleBookbtn" value="Add">
+                <input class="btn" type="button" value="Cancel" onClick="showSalesWithBooks()">
+            </fieldset>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

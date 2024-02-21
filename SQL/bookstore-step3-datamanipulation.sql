@@ -105,6 +105,13 @@ WHERE book_id = :book_id;
 DELETE FROM Book_has_Authors
 WHERE book = :book_id;
 
+-- delete a store from Stores
+-- deleting a store cascades to deleting the associated books at the location
+DELETE FROM Stores
+WHERE store_id = :store_id;
+DELETE FROM Books
+WHERE location = :store_id;
+
 --- UPDATES ---
 
 -- update a book
@@ -114,6 +121,12 @@ SET title = :title
 SET genre = :genre
 SET purchased_price = :purchased_price
 WHERE book_id = :book_id;
+
+-- update an author
+UPDATE Authors
+SET first_name = :first_name
+SET last_name = :last_name
+WHERE author_id = :author_id;
 
 -- -- update the customer associated with a sale
 -- UPDATE Sales

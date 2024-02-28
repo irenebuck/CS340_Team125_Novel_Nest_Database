@@ -54,7 +54,7 @@
     <label for="input-location">Location: </label>
     <select name="input-location" id="input-location">
         <option value="">Select a Location</option>
-        {{#each data}}
+        {{#each stores}} {{!-- stores is from the app.js page, query 2 stores:stores --}}
         <option value="{{this.store_id}}">{{this.store_name}}</option>
         {{/each}}
     </select>

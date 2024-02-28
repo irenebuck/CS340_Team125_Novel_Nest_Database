@@ -17,8 +17,9 @@ var db = require('./database/db-connector')
 // Handlebars
 var exphbs = require('express-handlebars');
 const { query } = require('express');
-app.engine('.hbs', exphbs({
-    extname: ".hbs"
+app.engine('.hbs', exphbs.engine({
+    extname: ".hbs",
+    defaultLayout: "main"
 }));
 app.set('view engine', '.hbs');
 

@@ -54,6 +54,7 @@
     <label for="input-location">Location: </label>
     <select name="input-location" id="input-location">
         <option value="">Select a Location</option>
+        {{#each data}}
         <option value="{{this.store_id}}">{{this.store_name}}</option>
         {{/each}}
     </select>

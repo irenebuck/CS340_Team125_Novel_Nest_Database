@@ -1,6 +1,11 @@
 <!-- Header and Nav bar -->
 <h1>Novel Nest - Used Book Sellers</h1>
 
+<p>&nbsp;</p>
+
+<script src="./js/delete_book.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 <h3>Search Using an HTML Form</h3>
 <p>Search by book title using the field below. Partial title is OK too!</p>
 <form id="search-books-html" method='GET' action='/'>
@@ -11,6 +16,7 @@
     <a href='/'><button>Reset</button></a>
 </form>
 
+<p>&nbsp;</p>
 
 {{!-- Creates Book Table --}}
 <table id="books-table">
@@ -26,6 +32,7 @@
                 {{@key}}
             </th>
             {{/each}}
+            <th>delete</th>
         </tr>
     </thead>
 
@@ -34,20 +41,21 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.book_id}}>
             <td>{{this.book_id}}</td>
             <td>{{this.location}}</td>
             <td>{{this.title}}</td>
             <td>{{this.genre}}</td>
             <td>{{this.purchased_price}}</td>
+            <td><button onclick="deleteBook({{this.book_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
-<!-- /views/index.hbs -->
 
-{{!-- Form to add a record to the Books table --}}
+<p>&nbsp;</p>
+
 <h2>Add Book</h2>
 <p>Please enter all fields</p>
 <form id="add-book-form-ajax">
@@ -58,6 +66,7 @@
         <option value="{{this.store_id}}">{{this.store_name}}</option>
         {{/each}}
     </select>
+
 
     <label for="input-title">Title: </label>
     <input type="text" name="input-title" id="input-title">
@@ -73,40 +82,29 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_book.js"></script>
-{{!--
 
 
+<p>&nbsp;</p>
 
-
-
-
-Creates Authors Table
-<table id="" author-table>
-
-    {{!-- Header section --}}
-    <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-
-    {{!-- Body section --}}
-    <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr>
-            <td>{{this.author_id}}</td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-        </tr>
+<h2>Update Book Location</h2>
+<form id="update-book-form-ajax">
+    <select name="input-book-id-update" id="input-book-id-update">
+        <option value="">Select a Book</option>
+        {{#each books}} {{!-- stores is from the app.js page, query 2 stores:stores --}}
+        <option value="{{this.book_id}}">{{this.title}}</option>
         {{/each}}
-    </tbody>
-</table> --}}
+    </select>
+
+    <label for="newLocation">Location: </label>
+    <select name="newLocation" id="newLocation">
+        <option value="">Select a Location</option>
+        {{#each stores}} {{!-- stores is from the app.js page, query 2 stores:stores --}}
+        <option value="{{this.store_id}}">{{this.store_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/update_book.js"></script>

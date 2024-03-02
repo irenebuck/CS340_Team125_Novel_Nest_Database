@@ -1,13 +1,18 @@
-/*
-    SETUP for simple web app
-*/
+// Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+
+
+//    SETUP for simple web app
+
 // Express
 var express = require('express');   // We are using the express library for the web server
 var app = express();            // We need to instantiate an express object to interact with the server in our code
 app.use(express.json())         // lines 7-9 enable express to handle JSON and form data
 app.use(express.urlencoded({ extended: true }))
 
-PORT = 27291;                 // Set a port number at the top so it's easy to change in the future
+PORT = 27290;                 // Set a port number at the top so it's easy to change in the future
 
 
 // Database
@@ -53,16 +58,27 @@ app.get('/', function (req, res) {
     // Run the 1st query
     db.pool.query(query1, function (error, rows, fields) {
 
-        // Save the people
-        let book = rows;
+        // Save the books
+        let books = rows;
 
         // Run the second query
         db.pool.query(query2, (error, rows, fields) => {
 
-            // Save the planets
+            // Save the locations
             let stores = rows;
 
-            return res.render('index', { data: book, stores: stores });
+            let storemap = {}
+            stores.map(store => {
+                let id = parseInt(store.store_id, 10);
+                console.log(id)
+                storemap[id] = store["search-title"];
+            })
+
+            books = books.map(book => {
+                return Object.assign(book, { location: storemap[book.location] })
+            })
+
+            return res.render('index', { data: books, stores: stores });
         })
     })
 });
@@ -74,13 +90,13 @@ app.post('/add-book-form-ajax', function (req, res) {
     let data = req.body;
 
     // Capture NULL values
-    let parsedPrice = parseInt(data.purchase_price);
+    let parsedPrice = parseInt(data.price);
     if (isNaN(parsedPrice)) {
         parsedPrice = 'NULL'
     }
 
     // Create the query and run it on the database
-    let query1 = `INSERT INTO Books (location, title, genre, purchase_price) VALUES ('${data.location}', '${data.title}', ${data.genre}, ${parsedPrice})`;
+    let query1 = `INSERT INTO Books (location, title, genre, price) VALUES ('${data.location}', '${data.title}', ${data.genre}, ${parsedPrice})`;
     db.pool.query(query1, function (error, rows, fields) {
 
         // Check to see if there was an error
@@ -112,51 +128,59 @@ app.post('/add-book-form-ajax', function (req, res) {
 });
 
 
-app.post('/add-book-form-ajax', function (req, res) {
-    // Capture the incoming data and parse it back to a JS object
+// DELETE ROUTES
+// Books table Cascades on delete, so we don't need multiple queries
+app.delete('/delete-book-ajax/', function (req, res, next) {
     let data = req.body;
+    let book_id = parseInt(data.book_id);
+    let deleteBook = `DELETE FROM Books WHERE book_id = ?`;   // Books table, book_id is PK
 
-    // Capture NULL values
-    let parsedPrice = parseInt(data.purchase_price);
-    if (isNaN(parsedPrice)) {
-        parsedPrice = 'NULL'
-    }
+    // Run the query
+    db.pool.query(deleteBook, [book_id], function (error, rows, fields) {
 
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Books (location, title, genre, purchase_price) VALUES ('${data.location}', '${data.title}', ${data.genre}, ${parsedPrice})`;
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // Check to see if there was an error
         if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
+
+// UPDATE ROUTES
+app.put('/put-book-location-ajax', function (req, res, next) {
+    let data = req.body;
+    let price = parseInt(data.price);
+    let bookID = parseInt(data.book_id);
+
+
+    queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
+    selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
+
+    // 1st query
+    db.pool.query(queryUpdatePrice, [price, bookID], function (error, rows, fields) {
+        if (error) {
+            console.log(error);
             res.sendStatus(400);
         }
         else {
-            // If there was no error, perform a SELECT * on bsg_people
-            let query2 = `SELECT * FROM Books;`;
-            db.pool.query(query2, function (error, rows, fields) {
-
-                // If there was an error on the second query, send a 400
+            // 2nd query
+            db.pool.query(selectPrice, [price, bookID], function (error, rows, fields) {
                 if (error) {
-
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
+                    console.log(error)
                     res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else {
-                    res.redirect('/');
+                } else {
+                    res.send(rows);
                 }
             })
         }
     })
-})
+});
 
 
 /*
-    LISTENER
+   LISTENER
 */
 app.listen(PORT, function () {            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
     console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')

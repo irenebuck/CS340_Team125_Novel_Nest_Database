@@ -1,4 +1,5 @@
 
+
 **Overview**
 
 Novel Nest is a small, independent bookseller with three physical locations. With an average of 15,000 used book sales from 2021 to 2023 and over 10,000 customers on file, managing inventory is key to maximizing sales. The owner is looking to increase sales by 10% this year, an additional 1,500 books for a total number of sales in 2024 of 16,500 books.

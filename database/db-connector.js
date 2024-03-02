@@ -1,3 +1,8 @@
+// Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+
 // Get an instance of mysql we can use in the app
 var mysql = require('mysql')
 

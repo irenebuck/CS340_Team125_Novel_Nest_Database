@@ -27,9 +27,10 @@ CREATE OR REPLACE TABLE Books (
     location INT NOT NULL,  -- fk, store_id from Stores
     title VARCHAR(255) NOT NULL,
     genre VARCHAR(255) NOT NULL,
-    purchased_price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (book_id),
     FOREIGN KEY (location) REFERENCES Stores(store_id)
+    ON DELETE CASCADE
 );
 
 -- create books_has_authors table
@@ -54,7 +55,7 @@ CREATE OR REPLACE TABLE Customers (
 CREATE OR REPLACE TABLE Sales (
     sale_id INT NOT NULL AUTO_INCREMENT, -- pk
     location INT NOT NULL, -- fk, store_id from Stores
-    sale_customer INT NOT NULL, -- fk, customer_id from Customers
+    sale_customer INT, -- fk, customer_id from Customers
     sales_no_tax DECIMAL(10, 2) NOT NULL,
     tax_collected DECIMAL(10, 2) NOT NULL,
     purchase_date DATETIME NOT NULL,
@@ -95,7 +96,7 @@ VALUES
     ('Jeffrey', 'Zaslow');
 
 -- add data to Books table
-INSERT INTO Books (location, title, genre, purchased_price)
+INSERT INTO Books (location, title, genre, price)
 VALUES
     ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Portland'), 'Practical Unix & Internet Security', 'Technology', 30),
     ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Corvallis'), 'Eloquent JavaScript', 'Self-Help', 25),

@@ -1,3 +1,9 @@
+// Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+
+
 // Get the objects we need to modify
 let addBookForm = document.getElementById('add-book-form-ajax');
 
@@ -24,7 +30,7 @@ addBookForm.addEventListener("submit", function (e) {
         location: LocationValue,
         title: TitleValue,
         genre: GenreValue,
-        purchase_price: PriceValue
+        price: PriceValue
     }
 
     // Setup our AJAX request
@@ -52,9 +58,7 @@ addBookForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-
 })
-
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people
@@ -63,8 +67,8 @@ addRowToTable = (data) => {
     // Get a reference to the current table on the pPrice and clear it out.
     let currentTable = document.getElementById("books-table");
 
-    // Get the location where we should insert the new row (end of table)
-    let newRowIndex = currentTable.rows.length;
+    // // Get the location where we should insert the new row (end of table) - we never use this
+    // let newRowIndex = currentTable.rows.length;
 
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
@@ -83,7 +87,13 @@ addRowToTable = (data) => {
     LocationCell.innerText = newRow.location;
     TitleCell.innerText = newRow.title;
     GenreCell.innerText = newRow.genre;
-    PriceCell.innerText = newRow.purchase_price;
+    PriceCell.innerText = newRow.price;
+
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function () {
+        deleteBook(newRow.book_id);
+    };
 
     // Add the cells to the row 
     row.appendChild(idCell);
@@ -91,6 +101,10 @@ addRowToTable = (data) => {
     row.appendChild(TitleCell);
     row.appendChild(GenreCell);
     row.appendChild(PriceCell);
+    row.appendChild(deleteCell);
+
+    // Add a row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.book_id);
 
     // Add the row to the table
     currentTable.appendChild(row);

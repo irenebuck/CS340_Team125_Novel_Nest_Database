@@ -1,0 +1,44 @@
+
+<p>&nbsp;</p>
+
+<a href="stores.hbs"></a>
+<div id="stores">
+    <table border="1" cellpadding="5">
+        <th>Store ID</th>
+        <th>Store Name</th>
+        <th>Location</th>
+        <tr>
+            <td>1</td>
+            <td>Portland</td>
+            <td>1825 SW Broadway, Portland, OR 97201</td>
+            <td><a href="#" onClick="deleteStore('this.store_id')">Delete</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Corvallis</td>
+            <td>1500 SW Jefferson Way, Corvallis, OR 97331</td>
+            <td><a href="#" onClick="deleteStore('this.store_id')">Delete</a></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Rocklin</td>
+            <td>5100 Sierra College Blvd, Rocklin, CA 95677</td>
+            <td><a href="#" onClick="deleteStore('this.store_id')">Delete</a></td>
+        </tr>
+    </table>
+    <br>
+</div>
+
+
+<div id="insertStore">
+    <form method="POST" id="addStore">
+        <fieldset class="fields">
+            <legend><strong>Add A New Store</strong></legend>
+            <label> Full Store Name </label> <input type="text" name="storeName">
+            <label> Physical Address</label> <input type="text" name="email">
+            <input class="btn" type="submit" id="addStoreBtn" value="Add Store">
+            <input class="btn" type="button" value="Cancel" onClick="showStores()">
+        </fieldset>
+    </form>
+</div>
+

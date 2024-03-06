@@ -1,0 +1,75 @@
+<p>&nbsp;</p>
+
+<div id="purchase">
+    <table border="1" cellpadding="5">
+        <th>Sale ID</th>
+        <th>Location ID</th>
+        <th>Customer ID</th>
+        <th>Subtotal</th>
+        <th>Tax</th>
+        <th>Date</th>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>4</td>
+            <td>$40</td>
+            <td>$4.00</td>
+            <td>1/1/2020</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>$15</td>
+            <td>$1.50</td>
+            <td>2/2/2021</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>2</td>
+            <td>5</td>
+            <td>$35</td>
+            <td>$3.50</td>
+            <td>3/3/2022</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>3</td>
+            <td>5</td>
+            <td>$40</td>
+            <td>$4.00</td>
+            <td>8/8/2023</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>1</td>
+            <td>1</td>
+            <td>$60</td>
+            <td>$6.00</td>
+            <td>2/14/2024</td>
+        </tr>
+    </table>
+    <br>
+</div>
+
+
+<div id="insertSale">
+    <form method="POST" id="addSale">
+        <fieldset class="fields">
+            <legend><strong>Add Sale</strong></legend>
+            <label> Location </label> <select type="text" name="location">
+                <option value="0">&nbsp;</option>
+                <option value="1" selected>Portland</option>
+                <option value="2">Corvallis</option>
+                <option value="3">Rocklin</option>
+            </select>
+            <label> Customer </label> <input type="text" name="custName">
+            <label> Subtotal </label> <input type="text" name="subtotal">
+            <label> Tax</label> <input type="text" name="tax">
+            <label> Date</label> <input type="date" id="saleDate" name="date">
+            <input class="btn" type="submit" id="addSalebtn" value="Add Sale">
+            <input class="btn" type="button" value="Cancel" onClick="showSales()">
+        </fieldset>
+    </form>
+</div>
+

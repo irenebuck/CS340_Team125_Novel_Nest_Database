@@ -1,0 +1,87 @@
+<p>&nbsp;</p>
+
+<a href="book_has_author.hbs"></a>
+<div id="book_authors">
+    <table border="1" cellpadding="5">
+        <th>Author ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th></th>
+
+        <tr>
+            <td>1</td>
+            <td>Wanda</td>
+            <td>Dann</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Stephen</td>
+            <td>Cooper</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Randy</td>
+            <td>Pausch</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Stephen</td>
+            <td>Kochan</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Marijn</td>
+            <td>Haverbeke</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Michael</td>
+            <td>Kerrisk</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Simson</td>
+            <td>Garfinkel</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Gene</td>
+            <td>Spefford</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Alan</td>
+            <td>Schwartz</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Jeffrey</td>
+            <td>Zaslow</td>
+            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
+        </tr>
+    </table>
+    <br>
+</div>
+
+
+<div id="insertStore">
+    <form method="POST" id="addAuthor">
+        <fieldset class="fields">
+            <legend><strong>Add An Author</strong></legend>
+            <label> First Name </label> <input type="text" name="authorfName">
+            <label> Last Name</label> <input type="text" name="authorlName">
+            <input class="btn" type="submit" id="addAuthorBtn" value="Add Author">
+            <input class="btn" type="button" value="Cancel" onClick="showAuthors()">
+        </fieldset>
+    </form>
+</div>
+

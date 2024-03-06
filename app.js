@@ -11,26 +11,17 @@ var express = require('express');   // We are using the express library for the 
 var app = express();            // We need to instantiate an express object to interact with the server in our code
 app.use(express.json())         // lines 7-9 enable express to handle JSON and form data
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'));
+PORT = 27291;                 // Set a port number at the top so it's easy to change in the future
 
-PORT = 27290;                 // Set a port number at the top so it's easy to change in the future
-
+// Handlebars
+const { query } = require('express-handlebars');
+var exphbs = require('express-handlebars');
+app.engine('.hbs', exphbs.engine({ extname: ".hbs", defaultLayout: "main" }));
+app.set('view engine', '.hbs');
 
 // Database
 var db = require('./database/db-connector')
-
-
-// Handlebars
-var exphbs = require('express-handlebars');
-const { query } = require('express');
-app.engine('.hbs', exphbs.engine({
-    extname: ".hbs",
-    defaultLayout: "main"
-}));
-app.set('view engine', '.hbs');
-
-// Static Files
-app.use(express.static('public'));
-
 
 /*
     ROUTES
@@ -38,11 +29,19 @@ app.use(express.static('public'));
 
 
 // GET ROUTES
+
+// renders the Home page
 app.get('/', function (req, res) {
-    // Declare Query 1
+    res.render('index');
+});
+
+
+// renders the Books page
+app.get('/books', function (req, res) {
+    // If there is no query string, we just perform a basic SELECT
+    // If there is a field in the search box, this does the search return
     let query1;
 
-    // If there is no query string, we just perform a basic SELECT
     if (req.query.title === undefined) {
         query1 = "SELECT * FROM Books;";
     }
@@ -55,33 +54,52 @@ app.get('/', function (req, res) {
     // Query 2 is the same in both cases
     let query2 = "SELECT * FROM Stores;";
 
-    // Run the 1st query
     db.pool.query(query1, function (error, rows, fields) {
-
         // Save the books
         let books = rows;
 
-        // Run the second query
+        // Run the second query for dropdown Stores
         db.pool.query(query2, (error, rows, fields) => {
 
-            // Save the locations
+            // Save the stores
             let stores = rows;
-
-            let storemap = {}
-            stores.map(store => {
-                let id = parseInt(store.store_id, 10);
-                console.log(id)
-                storemap[id] = store["search-title"];
-            })
-
-            books = books.map(book => {
-                return Object.assign(book, { location: storemap[book.location] })
-            })
 
             return res.render('index', { data: books, stores: stores });
         })
     })
 });
+
+
+// renders the Authors page
+app.get('/authors', function (req, res) {
+    let query1 = "SELECT * FROM Authors;";
+    db.pool.query(query1, function (error, rows, fields) {
+        res.render('index', { data: rows });
+    })
+});
+
+
+app.get('/book_has_authors', function (req, res) {
+    res.render('book_has_authors')
+})
+
+app.get('/stores', function (req, res) {
+    res.render('stores')
+})
+
+app.get('/customers', function (req, res) {
+    res.render('customers')
+})
+
+app.get('/sales', function (req, res) {
+    res.render('sales')
+})
+
+app.get('/sales_has_books', function (req, res) {
+    res.render('sales_has_books')
+})
+
+
 
 // POST ROUTES
 app.post('/add-book-form-ajax', function (req, res) {

@@ -121,6 +121,8 @@ app.get('/', function (req, res) {
 
 // renders the Books page
 app.get('/books', function (req, res) {
+
+    console.log("/books - app.js");
     // If there is no query string, we just perform a basic SELECT
     // If there is a field in the search box, this does the search return
     let query1;
@@ -204,6 +206,7 @@ app.get('/sales_has_books', function (req, res) {
 // POST ROUTES
 app.post('/add-book-form-ajax', function (req, res) {
 
+    console.log("add book - app.js");
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
@@ -214,7 +217,7 @@ app.post('/add-book-form-ajax', function (req, res) {
     }
 
     // Create the query and run it on the database
-    let query1 = `INSERT INTO Books (location, title, genre, price) VALUES ('${data.location}', '${data.title}', ${data.genre}, ${parsedPrice})`;
+    let query1 = `INSERT INTO Books (location, title, genre, price) VALUES ('${data.location}', '${data.title}', '${data.genre}', ${parsedPrice})`;
     db.pool.query(query1, function (error, rows, fields) {
 
         // Check to see if there was an error

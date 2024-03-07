@@ -10,6 +10,8 @@ let addBookForm = document.getElementById('add-book-form-ajax');
 // Modify the objects we need
 addBookForm.addEventListener("submit", function (e) {
 
+    console.log("add book - add_book.js");
+
     // Prevent the form from submitting
     e.preventDefault();
 

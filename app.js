@@ -318,11 +318,11 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
 // Delete a customer
 app.delete('/delete-customer-ajax/', function (req, res, next) {
     let data = req.body;
-    let customer_id = parseInt(data.book_id);
-    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;   // Books table, book_id is PK
+    let customer_id = parseInt(data.customer_id);
+    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;  
 
     // Run the query
-    db.pool.query(deleteBook, [customer_id], function (error, rows, fields) {
+    db.pool.query(deleteCustomer, [customer_id], function (error, rows, fields) {
 
         if (error) {
             console.log(error);

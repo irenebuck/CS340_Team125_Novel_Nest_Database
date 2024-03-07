@@ -12,7 +12,7 @@ var exphbs = require('express-handlebars');
 var express = require('express');   // We are using the express library for the web server
 var app = express();            // We need to instantiate an express object to interact with the server in our code
 
-PORT = 27291;                 // Set a port number at the top so it's easy to change in the future
+PORT = 27290;                 // Set a port number at the top so it's easy to change in the future
 
 app.engine('.hbs', engine({ extname: ".hbs" }));
 app.set('view engine', '.hbs');
@@ -241,6 +241,53 @@ app.post('/add-book-form-ajax', function (req, res) {
                     res.send(rows);
                 }
             })
+        }
+    })
+});
+
+// Add a customer
+app.post('/add-customer-form-ajax', function (req, res) {
+
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.name}', '${data.email}')`;
+    db.pool.query(query1, function (error, rows, fields) {
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.send(rows);
+        }   
+    })
+});
+
+
+// Add a author
+app.post('/add_author', function (req, res) {
+
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.first_name}', '${data.last_name}')`;
+    db.pool.query(query1, function (error, rows, fields) {
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.send(rows);
         }
     })
 });

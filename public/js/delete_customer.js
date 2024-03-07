@@ -4,30 +4,30 @@
 // Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
 
 
-function deleteBook(book_id) {
-    var link = '/delete-book-ajax/';
+function deleteCustomer(customer_id) {
+    var link = '/delete-customer-ajax/';
     let data = {
-        book_id: book_id
+        customer_id: customer_id
     }
 
     $.ajax({
         url: link,
         type: 'DELETE',
         data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8", 
+        contentType: "application/json; charset=utf-8",
         success: function (result) {
-            deleteRow(book_id);
+            deleteRow(customer_id);
         }
     })
 }
 
-function deleteRow(book_id) {
-    let table = document.getElementById("books-table");
+function deleteRow(customer_id) {
+    let table = document.getElementById("customers-table");
 
     // skip the first row of table (the header)
     for (let i = 1, row; row = table.rows[i]; i++) {
         console.log(table.rows[i].getAttribute("data-value"));
-        if (table.rows[i].getAttribute("data-value") == book_id) {
+        if (table.rows[i].getAttribute("data-value") == customer_id) {
             console.log("Performing delete operation...");
             table.deleteRow(i);
             break;

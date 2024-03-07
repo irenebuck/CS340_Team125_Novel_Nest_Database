@@ -5,17 +5,17 @@
 
 
 // Get the objects we need to modify
-let addBookForm = document.getElementById('add_author');
+let addAuthorForm = document.getElementById('add_author');
 
 // Modify the objects we need
-addBookForm.addEventListener("submit", function (e) {
+addAuthorForm.addEventListener("submit", function (e) {
 
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let input_author_fname = document.getElementById("input_author_fname");
-    let input_author_lname = document.getElementById("input_author_lname");
+    let input_author_fname = document.getElementById("authorfName");
+    let input_author_lname = document.getElementById("authorlName");
     
 
     // Get the values from the form fields
@@ -80,7 +80,7 @@ addRowToTable = (data) => {
     updateCell = document.createElement("button");
     updateCell.innerHTML = "Edit";
     updateCell.onclick = function () {
-        updateAuthork(newRow.author_id);
+        updateAuthor(newRow.author_id);
     };
 
     // Add the cells to the row 

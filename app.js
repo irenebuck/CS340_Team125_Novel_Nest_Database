@@ -266,6 +266,26 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
 });
 
 
+// Delete a customer
+app.delete('/delete-customer-ajax/', function (req, res, next) {
+    let data = req.body;
+    let customer_id = parseInt(data.book_id);
+    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;   // Books table, book_id is PK
+
+    // Run the query
+    db.pool.query(deleteBook, [customer_id], function (error, rows, fields) {
+
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
+
+
 // UPDATE ROUTES
 app.put('/put-book-location-ajax', function (req, res, next) {
     let data = req.body;

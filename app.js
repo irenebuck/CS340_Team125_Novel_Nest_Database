@@ -12,7 +12,7 @@ var exphbs = require('express-handlebars');
 var express = require('express');   // We are using the express library for the web server
 var app = express();            // We need to instantiate an express object to interact with the server in our code
 
-PORT = 27290;                 // Set a port number at the top so it's easy to change in the future
+PORT = 27291;                 // Set a port number at the top so it's easy to change in the future
 
 app.engine('.hbs', engine({ extname: ".hbs" }));
 app.set('view engine', '.hbs');
@@ -206,7 +206,6 @@ app.get('/sales_has_books', function (req, res) {
 // POST ROUTES
 app.post('/add-book-form-ajax', function (req, res) {
 
-    console.log("add book - app.js");
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 

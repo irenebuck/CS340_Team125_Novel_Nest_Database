@@ -10,7 +10,7 @@ let addBookForm = document.getElementById('add-book-form-ajax');
 // Modify the objects we need
 addBookForm.addEventListener("submit", function (e) {
 
-    console.log("add book - add_book.js");
+    // console.log("add book - add_book.js");
 
     // Prevent the form from submitting
     e.preventDefault();
@@ -35,6 +35,8 @@ addBookForm.addEventListener("submit", function (e) {
         price: PriceValue
     }
 
+    // console.log("data object for add_book: " + data.location + data.title + data.genre + data.price)
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/add-book-form-ajax", true);
@@ -42,6 +44,7 @@ addBookForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
+        // console.log("xhttp block");
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
@@ -54,10 +57,11 @@ addBookForm.addEventListener("submit", function (e) {
             inputPrice.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
+            console.log("There was an error with the input. status: ", xhttp.status, " readystate: ", xhttp.readyState)
         }
     }
-
+    // console.log("stringified data in add_book.js: " + JSON.stringify(data))
+    // console.log("genre type : " + typeof(data.genre))
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 })
@@ -65,6 +69,8 @@ addBookForm.addEventListener("submit", function (e) {
 // Creates a single row from an Object representing a single record from 
 // bsg_people
 addRowToTable = (data) => {
+
+    // console.log("adding row to table in add_book.js" + data)
 
     // Get a reference to the current table on the pPrice and clear it out.
     let currentTable = document.getElementById("books-table");

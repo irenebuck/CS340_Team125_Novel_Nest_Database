@@ -1,87 +1,31 @@
-<p>&nbsp;</p>
+{{!-- // Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source:
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<a href="book_has_author.hbs"></a>
-<div id="book_authors">
-    <table border="1" cellpadding="5">
-        <th>Author ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th></th>
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-        <tr>
-            <td>1</td>
-            <td>Wanda</td>
-            <td>Dann</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Stephen</td>
-            <td>Cooper</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Randy</td>
-            <td>Pausch</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Stephen</td>
-            <td>Kochan</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Marijn</td>
-            <td>Haverbeke</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Michael</td>
-            <td>Kerrisk</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Simson</td>
-            <td>Garfinkel</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Gene</td>
-            <td>Spefford</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>Alan</td>
-            <td>Schwartz</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>Jeffrey</td>
-            <td>Zaslow</td>
-            <td><a href="#" onClick="updateAuthor('this.author_id')">Edit</a></td>
-        </tr>
-    </table>
-    <br>
+<div id="bookAuthorDiv">
+    <fieldset>
+        <legend><strong>Book Authors</strong></legend>
+        <table id="book-authors-table">
+            <thead>
+                <th>Book And Author ID</th>
+                <th>Book</th>
+                <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.book_has_author_id}}>
+                    <td>{{this.book_has_author_id}}</td>
+                    <td>{{this.book}}</td>
+                    <td>{{this.author}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </fieldset>
 </div>
-
-
-<div id="insertStore">
-    <form method="POST" id="addAuthor">
-        <fieldset class="fields">
-            <legend><strong>Add An Author</strong></legend>
-            <label> First Name </label> <input type="text" name="authorfName">
-            <label> Last Name</label> <input type="text" name="authorlName">
-            <input class="btn" type="submit" id="addAuthorBtn" value="Add Author">
-            <input class="btn" type="button" value="Cancel" onClick="showAuthors()">
-        </fieldset>
-    </form>
-</div>
-

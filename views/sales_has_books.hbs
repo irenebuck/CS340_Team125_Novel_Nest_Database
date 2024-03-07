@@ -1,57 +1,43 @@
-<p>&nbsp;</p>
+{{!-- // Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source:
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<div id="purchaseSaleBook">
-    <table border="1" cellpadding="5">
-        <th>Sale With Books ID</th>
-        <th>Sale ID</th>
-        <th>Book ID</th>
-        <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>2</td>
-            <td>6</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>3</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>4</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>5</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>5</td>
-            <td>1</td>
-        </tr>
-    </table>
-    <br>
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<div id="saleBooksDiv">
+    <fieldset>
+        <legend><strong>Books Sold</strong></legend>
+        <table id="sale_books_table">
+            <thead>
+                <tr>
+                    <th>Book Sale ID</th>
+                    <th>Sale ID</th>
+                    <th>Book ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.sale_has_books_id}}>
+                    <td>{{this.sale_has_books_id}}</td>
+                    <td>{{this.sale}}</td>
+                    <td>{{this.book}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </fieldset>
 </div>
 
 
-<div id="insertSale">
-    <form method="POST" id="addSalWithBook">
+<div id="addBookSaleDiv">
+    <form method="POST" id="addBookSale">
         <fieldset class="fields">
             <legend><strong>Add Book Sale</strong></legend>
-            <label> Sale ID/ Transaction Number </label> <select type="text" name="sale_id">
-                <option value="0">&nbsp;</option>
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+            <label> Sale ID/ Transaction Number </label>
+            <input type="number" name="sale_id">
             <label> Book ID </label> <select type="text" name="book_id">
                 <option value="0">&nbsp;</option>
                 <option value="1" selected>1</option>
@@ -66,4 +52,3 @@
         </fieldset>
     </form>
 </div>
-

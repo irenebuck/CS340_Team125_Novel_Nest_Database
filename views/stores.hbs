@@ -1,44 +1,49 @@
+{{!-- // Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source:
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
+
+
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/add_store.js"></script>
+
+<div id="stores-table-div">
+    <fieldset>
+        <legend><strong>Stores</strong></legend>
+        <table id="stores-table">
+            <thead>
+                <tr>
+                    <th>Store ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.store_id}}>
+                    <td>{{this.store_id}}</td>
+                    <td>{{this.store_name}}</td>
+                    <td>{{this.store_address}}</td>
+                    <td><button onClick="updateAuthor({{this.author_id}})">Edit</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </fieldset>
+</div>
 
 <p>&nbsp;</p>
 
-<a href="stores.hbs"></a>
-<div id="stores">
-    <table border="1" cellpadding="5">
-        <th>Store ID</th>
-        <th>Store Name</th>
-        <th>Location</th>
-        <tr>
-            <td>1</td>
-            <td>Portland</td>
-            <td>1825 SW Broadway, Portland, OR 97201</td>
-            <td><a href="#" onClick="deleteStore('this.store_id')">Delete</a></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Corvallis</td>
-            <td>1500 SW Jefferson Way, Corvallis, OR 97331</td>
-            <td><a href="#" onClick="deleteStore('this.store_id')">Delete</a></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Rocklin</td>
-            <td>5100 Sierra College Blvd, Rocklin, CA 95677</td>
-            <td><a href="#" onClick="deleteStore('this.store_id')">Delete</a></td>
-        </tr>
-    </table>
-    <br>
-</div>
-
-
 <div id="insertStore">
-    <form method="POST" id="addStore">
+    <form method="POST" id="add_store">
         <fieldset class="fields">
-            <legend><strong>Add A New Store</strong></legend>
-            <label> Full Store Name </label> <input type="text" name="storeName">
-            <label> Physical Address</label> <input type="text" name="email">
+            <legend><strong>Add A Store</strong></legend>
+            <label> Name </label> <input type="text" name="storeName">
+            <label> Store Address</label> <input type="text" name="storeAddress">
             <input class="btn" type="submit" id="addStoreBtn" value="Add Store">
             <input class="btn" type="button" value="Cancel" onClick="showStores()">
         </fieldset>
     </form>
 </div>
-

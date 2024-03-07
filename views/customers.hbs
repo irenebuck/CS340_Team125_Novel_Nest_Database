@@ -1,55 +1,51 @@
-<p>&nbsp;</p>
+{{!-- // Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source:
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<a href="customers.hbs"></a>
-    <div id="customers">
-        <table border="1" cellpadding="5">
-            <th>Customer ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <tr>
-                <td>1</td>
-                <td>Deshawn Cooper</td>
-                <td>Cooper_Man@gmail.com</td>
-                <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Lily Baber</td>
-                <td>OoBabyBaby@yahoo.com</td>
-                <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Francis Lee</td>
-                <td>OleeOleeO@gmail.com</td>
-                <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Jin Park</td>
-                <td>JinInThePark@gmail.com</td>
-                <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Juan Ruiz</td>
-                <td>juanado@osu.edu</td>
-                <td><a href="#" onClick="updateCustomer('this.customer_id')">Edit</a></td>
-            </tr>
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src=".js/update_customer.js"></script>
+<script src="./js/add_customer.js"></script>
+<script src="./js/delete_customer.js"></script>
+
+<div id="customers-table-div">
+    <fieldset>
+        <legend><strong>Customers</strong></legend>
+        <table id="customers-table">
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.customer_id}}>
+                    <td>{{this.customer_id}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td><button onClick="updateCustomer({{this.customer_id}})">Edit</button></td>
+                    <td><button onClick="deleteCustomer({{this.customer_id}})">Delete</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
-        <br>
-    </div>
+    </fieldset>
+</div>
 
 
-    <div id="insertCustomer">
-        <form method="POST" id="addCustomer">
-            <fieldset class="fields">
-                <legend><strong>Add Customer</strong></legend>
-                <label> Full Name </label> <input type="text" name="fname">
-                <label> Email</label> <input type="text" name="email">
+<div id="insertCustomer">
+    <form method="POST" id="addCustomer">
+        <fieldset class="fields">
+            <legend><strong>Add Customer</strong></legend>
+            <label> Full Name </label> <input type="text" name="fullname">
+            <label> Email</label> <input type="text" name="email">
 
-                <input class="btn" type="submit" id="addCustomerBtn" value="Add Customer">
-                <input class="btn" type="button" value="Cancel" onClick="showCustomers()">
-            </fieldset>
-        </form>
-    </div>
+            <input class="btn" type="submit" id="addCustomerBtn" value="Add Customer">
+            <input class="btn" type="button" value="Cancel" onClick="showCustomers()">
+        </fieldset>
+    </form>
+</div>

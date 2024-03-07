@@ -5,68 +5,43 @@
 https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
 
-<!-- Header and Nav bar -->
-<h1>Novel Nest - Used Book Sellers</h1>
-
 <br>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-{{!-- Creates Book Table --}}
-<table id="authors-table">
-
-    {{!-- Header section --}}
-    <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-
-    {{!-- Body section --}}
-    <tbody>
-
-        {{!-- For each row, print the author_id, first name, and last name in order --}}
-        {{#each data}}
-        <tr data-value={{this.author_id}}>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td><button onClick="updateAuthor({{this.author_id}})">Edit</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
 <script src=".js/update_author.js"></script>
-
-<br>
-
-<h2>Add Author</h2>
-<p>Initials should be included in First Name field</p>
-<p>&nbsp;</p>
-
-<form id="add_author">
-    <label for="input_author_fname">First Name: </label>
-    <input type="text" name="input_author_fname" id="input_author_fname">
-
-    <label for="input_author_lname">Last Name: </label>
-    <input type="text" name="input_author_lname" id="input_author_lname">
-
-    <input type="submit">
-</form>
-
 <script src="./js/add_author.js"></script>
 
+<div id="authors-table-div">
+    <fieldset>
+        <legend><strong>Authors</strong></legend>
+        <table id="authors-table">
+            <thead>
+                <tr>
+                    <th>Author ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.author_id}}>
+                    <td>{{this.author_id}}</td>
+                    <td>{{this.first_name}}</td>
+                    <td>{{this.last_name}}</td>
+                    <td><button onClick="updateAuthor({{this.author_id}})">Edit</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+
+<p>&nbsp;</p>
 
 <div id="insertStore">
-    <form method="POST" id="addAuthor">
+    <form method="POST" id="add_author">
         <fieldset class="fields">
             <legend><strong>Add An Author</strong></legend>
+            <p>Initials should be included in First Name field</p>
             <label> First Name </label> <input type="text" name="authorfName">
             <label> Last Name</label> <input type="text" name="authorlName">
             <input class="btn" type="submit" id="addAuthorBtn" value="Add Author">

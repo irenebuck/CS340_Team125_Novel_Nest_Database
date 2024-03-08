@@ -121,18 +121,16 @@ app.get('/', function (req, res) {
 
 // renders the Books page
 app.get('/books', function (req, res) {
-
-    console.log("/books - app.js");
     // If there is no query string, we just perform a basic SELECT
     // If there is a field in the search box, this does the search return
     let query1;
 
-    if (req.query.title === undefined) {
+    if (req.query.search === undefined) {
         query1 = `SELECT * FROM Books`;
     }
     // If there is a query string, we assume this is a search, and return desired results
     else {
-        query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.title}%"`
+        query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
     }
 
     // Query 2 is the same in both cases
@@ -204,9 +202,9 @@ app.get('/sales_has_books', function (req, res) {
 
 
 // POST ROUTES
+// Add a book
 app.post('/add-book-form-ajax', function (req, res) {
 
-    console.log("add book - app.js");
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
@@ -228,7 +226,7 @@ app.post('/add-book-form-ajax', function (req, res) {
             res.sendStatus(400);
         }
         else {
-            // If there was no error, perform a SELECT * on bsg_people
+            // If there was no error, perform a SELECT * on Books
             let query2 = `SELECT * FROM Books;`;
             db.pool.query(query2, function (error, rows, fields) {
 
@@ -272,14 +270,14 @@ app.post('/add-customer-form-ajax', function (req, res) {
 });
 
 
-// Add a author
+// Add an author
 app.post('/add_author', function (req, res) {
 
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
     // Create the query and run it on the database
-    let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.first_name}', '${data.last_name}')`;
+    let query1 = `INSERT INTO Authors (first_name, last_name) VALUES ('${data.first_name}', '${data.last_name}')`;
     db.pool.query(query1, function (error, rows, fields) {
 
         // Check to see if there was an error
@@ -293,6 +291,35 @@ app.post('/add_author', function (req, res) {
             res.send(rows);
         }
     })
+});
+
+
+// add a store
+app.post('/add-store-form-ajax', function (req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
+    db.pool.query(query1, function (error, result) {
+        // Check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If the insert operation was successful, fetch the updated data
+            let query2 = `SELECT * FROM Stores;`;
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // Send the fetched data as the response
+                    res.send(rows);
+                }
+            });
+        }
+    });
 });
 
 
@@ -335,8 +362,28 @@ app.delete('/delete-customer-ajax/', function (req, res, next) {
 });
 
 
+// Delete a store
+app.delete('/delete-store-ajax/', function (req, res, next) {
+    let data = req.body;
+    let store_id = parseInt(data.store_id);
+    let deleteStore = `DELETE FROM Stores WHERE store_id = ?`;
+
+    // Run the query
+    db.pool.query(deleteStore, [store_id], function (error, rows, fields) {
+
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
+
 
 // UPDATE ROUTES
+// Update Book 
 app.put('/put-book-location-ajax', function (req, res, next) {
     let data = req.body;
     let price = parseInt(data.price);
@@ -366,6 +413,21 @@ app.put('/put-book-location-ajax', function (req, res, next) {
     })
 });
 
+// Update Author's Name
+app.put('/update_author_form', function (req, res, next) {
+    let data = req.body;
+
+    queryUpdateName = `UPDATE Authors SET first_name = '${data['authorfNameUpdate']}', last_name = '${data['authorlNameUpdate']}' WHERE author_id = '${data['updateAuthorID']}'`;
+    db.pool.query(queryUpdateName, function (error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            res.redirect('/authors');
+        }
+    })
+});
 
 /*
    LISTENER

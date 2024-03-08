@@ -22,12 +22,13 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
             <td>{{this.store_id}}</td>
             <td>{{this.store_name}}</td>
             <td>{{this.store_address}}</td>
-            <td><button onclick="deleteStore({{this.author_id}})">Delete</button></td>
-            <td><button onClick="updateStore({{this.author_id}})">Edit</button></td>
+            <td><button onclick="deleteStore({{this.store_id}})">Delete</button></td>
+            <td><button onClick="updateStore({{this.store_id}})">Edit</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_store.js"></script>
 
 <p>&nbsp;</p>
 

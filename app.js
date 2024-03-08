@@ -363,6 +363,24 @@ app.delete('/delete-customer-ajax/', function (req, res, next) {
     })
 });
 
+// delete a store
+app.delete('/delete-store-ajax/', function (req, res, next) {
+    let data = req.body;
+    let store_id = parseInt(data.store_id);
+    let deleteStore = `DELETE FROM Stores WHERE store_id = ?`;
+
+    // Run the query
+    db.pool.query(deleteStore, [store_id], function (error, rows, fields) {
+
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
 
 
 // UPDATE ROUTES

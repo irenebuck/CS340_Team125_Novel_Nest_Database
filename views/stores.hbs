@@ -7,7 +7,6 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <br>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./js/add_store.js"></script>
 
 <div id="stores-table-div">
     <fieldset>
@@ -37,13 +36,13 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <p>&nbsp;</p>
 
 <div id="insertStore">
-    <form method="POST" id="add_store">
+    <form method="POST" id="add-store-form-ajax">
         <fieldset class="fields">
             <legend><strong>Add A Store</strong></legend>
-            <label> Name </label> <input type="text" name="storeName">
-            <label> Store Address</label> <input type="text" name="storeAddress">
-            <input class="btn" type="submit" id="addStoreBtn" value="Add Store">
-            <input class="btn" type="button" value="Cancel" onClick="showStores()">
+            <label> Name </label> <input type="text" name="storeName" id="storeName">
+            <label> Store Address</label> <input type="text" name="storeAddress" id="storeAddress">
+            <input type="submit">
         </fieldset>
     </form>
 </div>
+<script src="./js/add_store.js"></script>

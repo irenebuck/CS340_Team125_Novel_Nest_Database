@@ -294,6 +294,29 @@ app.post('/add_author', function (req, res) {
     })
 });
 
+// add a store
+app.post('/add-store-form-ajax', function (req, res) {
+
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
+    db.pool.query(query1, function (error, rows, fields) {
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else {
+            res.send(rows);
+        }   
+    })
+});
+
 
 // DELETE ROUTES
 // Books table Cascades on delete, so we don't need multiple queries

@@ -46,7 +46,7 @@ addStoreForm.addEventListener("submit", function (e) {
             // Clear the input fields for another transaction
             input_name.value = '';
             input_store_address.value = '';
-            location.reload();
+            // location.reload();
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -60,7 +60,9 @@ addStoreForm.addEventListener("submit", function (e) {
 // Creates a single row from an Object representing a single record from 
 addRowToTable = (data) => {
 
-    let currentTable = document.getElementById("stores-table");
+    // Get a reference to the current table on the pPrice and clear it out.
+    let currentTable = document.getElementById("sales-table");
+    console.log("cur table: ", currentTable)
 
     // // Get the location where we should insert the new row (end of table) - we never use this
     // let newRowIndex = currentTable.rows.length;
@@ -69,33 +71,33 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
+    console.log(data, parsedData)
+
     // Create a row and 4 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let nameCell = document.createElement("TD");
-    let storeAddressCell = document.createElement("TD");
-
-    console.log(newRow, data)
+    let NameCell = document.createElement("TD");
+    let AddressCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.store_id;
-    nameCell.innerText = newRow.store_name;
-    storeAddressCell.innerText = newRow.store_address;
+    NameCell.innerText = newRow.store_name;
+    AddressCell.innerText = newRow.store_address;
 
     deleteCell = document.createElement("button");
-    deleteCell.innerHTML = "Delete";
+    deleteCell.innerHTML = "Edit";
     deleteCell.onclick = function () {
-        deleteStore(newRow.store_id);
-    };    
+        // deleteBook(newRow.book_id);
+    };
 
     // Add the cells to the row 
     row.appendChild(idCell);
-    row.appendChild(nameCell);
-    row.appendChild(storeAddressCell);
+    row.appendChild(NameCell);
+    row.appendChild(AddressCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.store_id);
 
     // Add the row to the table
     currentTable.appendChild(row);
-};
+}

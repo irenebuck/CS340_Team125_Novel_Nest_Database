@@ -294,28 +294,35 @@ app.post('/add_author', function (req, res) {
     })
 });
 
-// add a store
+// add store
 app.post('/add-store-form-ajax', function (req, res) {
-
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
     // Create the query and run it on the database
     let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // Check to see if there was an error
+    db.pool.query(query1, function (error, result) {
+        // Check for errors
         if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
+            console.log(error);
             res.sendStatus(400);
+        } else {
+            // If the insert operation was successful, fetch the updated data
+            let query2 = `SELECT * FROM Stores;`;
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // Send the fetched data as the response
+                    res.send(rows);
+                }
+            });
         }
-        else {
-            res.send(rows);
-        }   
-    })
+    });
 });
+
+
 
 
 // DELETE ROUTES

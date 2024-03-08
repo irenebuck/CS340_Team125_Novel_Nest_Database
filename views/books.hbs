@@ -8,39 +8,6 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
   src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
 ></script>
 
-<<<<<<< HEAD
-<br>
-
-<div id="searchBookDiv">
-    <fieldset>
-        <legend>Search For A Book</legend>
-        <table id="books-table">
-            <thead>
-                <tr>
-                    <th>Book ID</th>
-                    <th>Location</th>
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.book_id}}>
-                    <td>{{this.book_id}}</td>
-                    <td>{{this.location}}</td>
-                    <td>{{this.title}}</td>
-                    <td>{{this.genre}}</td>
-                    <td>{{this.price}}</td>
-                    <td><button onclick="deleteBook({{this.book_id}})">Delete</button></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
-</div>
-
-=======
 <table id="books-table">
   <thead>
     <tr>
@@ -65,23 +32,10 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
     {{/each}}
   </tbody>
 </table>
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 <script src="./js/delete_book.js"></script>
 
 <br />
 <div id="searchBookDiv">
-<<<<<<< HEAD
-    <fieldset>
-        <legend>Search For A Book</legend>
-        <p>Search by book title using the field below. Partial title is OK too!</p>
-        <form id="search-book-html" method="GET" action="/books">
-            <label for="input-title">Search by Title: </label>
-            <input type="text" name="search" id="input-title-html-search" />
-            <input type="submit" />
-            <a href="/"><button>Reset</button></a>
-        </form>
-    </fieldset>
-=======
   <fieldset>
     <legend>Search For A Book</legend>
     <p>Search by book title using the field below. Partial title is OK too!</p>
@@ -92,7 +46,6 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
       <a href="/"><button>Reset</button></a>
     </form>
   </fieldset>
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 </div>
 <br />
 
@@ -124,20 +77,6 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 </div>
 <script src="./js/add_book.js"></script>
 
-<<<<<<< HEAD
-<br>
-<div id="updateBookDiv">
-    <fieldset>
-        <legend>Update A Book</legend>
-        <form id="update-book-form-ajax">
-            <label for="update-bookID">Location: </label>
-            <select name="update-bookID" id="update-bookID">
-                <option value="">Select a Book</option>
-                {{#each data}}
-                <option value="{{this.book_id}}">{{this.title}}</option>
-                {{/each}}
-            </select>
-=======
 <br />
 <div id="updateBookDiv">
   <fieldset>
@@ -145,21 +84,12 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
     <form id="put-book-form-ajax">
       <label for="input-bookID">Book ID: </label>
       <input type="number" name="input-bookID" id="input-bookID" />
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 
       <label for="input-newPrice">New Price: </label>
       <input type="number" name="input-newPrice" id="input-newPrice" />
 
-<<<<<<< HEAD
-            <input type="submit">
-        </form>
-    </fieldset>
-</div>
-
-=======
       <input type="submit" />
     </form>
   </fieldset>
 </div>
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 <script src="./js/update_book.js"></script>

@@ -117,20 +117,6 @@ app.get("/", function (req, res) {
 });
 
 // renders the Books page
-<<<<<<< HEAD
-app.get('/books', function (req, res) {
-    // If there is no query string, we just perform a basic SELECT
-    // If there is a field in the search box, this does the search return
-    let query1;
-
-    if (req.query.search === undefined) {
-        query1 = `SELECT * FROM Books`;
-    }
-    // If there is a query string, we assume this is a search, and return desired results
-    else {
-        query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
-    }
-=======
 app.get("/books", function (req, res) {
   console.log("/books - app.js ", req.query.search);
   // If there is no query string, we just perform a basic SELECT
@@ -148,7 +134,6 @@ app.get("/books", function (req, res) {
 
   // Query 2 is the same in both cases
   let query2 = "SELECT * FROM Stores;";
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 
   db.pool.query(query1, function (error, rows, fields) {
     // Save the books
@@ -219,13 +204,6 @@ app.get("/sales_has_books", function (req, res) {
 });
 
 // POST ROUTES
-<<<<<<< HEAD
-// Add a book
-app.post('/add-book-form-ajax', function (req, res) {
-
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-=======
 app.post("/add-book-form-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
   let data = req.body;
@@ -235,7 +213,6 @@ app.post("/add-book-form-ajax", function (req, res) {
   if (isNaN(parsedPrice)) {
     parsedPrice = "NULL";
   }
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 
   // Create the query and run it on the database
   let query1 = `INSERT INTO Books (location, title, genre, price) VALUES ('${data.location}', '${data.title}', '${data.genre}', ${parsedPrice})`;
@@ -257,26 +234,7 @@ app.post("/add-book-form-ajax", function (req, res) {
         }
         // If all went well, send the results of the query back.
         else {
-<<<<<<< HEAD
-            // If there was no error, perform a SELECT * on Books
-            let query2 = `SELECT * FROM Books;`;
-            db.pool.query(query2, function (error, rows, fields) {
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else {
-                    res.send(rows);
-                }
-            })
-=======
           res.send(rows);
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
         }
       });
     }
@@ -302,7 +260,6 @@ app.post("/add-customer-form-ajax", function (req, res) {
   });
 });
 
-<<<<<<< HEAD
 
 // Add an author
 app.post('/add_author', function (req, res) {
@@ -325,25 +282,6 @@ app.post('/add_author', function (req, res) {
             res.send(rows);
         }
     })
-=======
-// Add a author
-app.post("/add_author", function (req, res) {
-  // Capture the incoming data and parse it back to a JS object
-  let data = req.body;
-
-  // Create the query and run it on the database
-  let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.first_name}', '${data.last_name}')`;
-  db.pool.query(query1, function (error, rows, fields) {
-    // Check to see if there was an error
-    if (error) {
-      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.send(rows);
-    }
-  });
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 });
 
 // add store
@@ -474,34 +412,6 @@ app.delete("/delete-store-ajax/", function (req, res, next) {
   let store_id = parseInt(data.store_id);
   let deleteStore = `DELETE FROM Stores WHERE store_id = ?`;
 
-<<<<<<< HEAD
-// Delete a store
-app.delete('/delete-store-ajax/', function (req, res, next) {
-    let data = req.body;
-    let store_id = parseInt(data.store_id);
-    let deleteStore = `DELETE FROM Stores WHERE store_id = ?`;
-
-    // Run the query
-    db.pool.query(deleteStore, [store_id], function (error, rows, fields) {
-
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            res.sendStatus(204);
-        }
-    })
-});
-
-
-
-// UPDATE ROUTES
-// Update Book 
-app.put('/put-book-location-ajax', function (req, res, next) {
-    let data = req.body;
-    let price = parseInt(data.price);
-    let bookID = parseInt(data.book_id);
-=======
   // Run the query
   db.pool.query(deleteStore, [store_id], function (error, rows, fields) {
     if (error) {
@@ -519,7 +429,6 @@ app.put("/put-book-form-ajax", function (req, res, next) {
   let data = req.body;
   let price = parseInt(data.price);
   let bookID = parseInt(data.book_id);
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 
   queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
   selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
@@ -553,7 +462,6 @@ app.put("/put-book-form-ajax", function (req, res, next) {
   );
 });
 
-<<<<<<< HEAD
 // Update Author's Name
 app.put('/update_author_form', function (req, res, next) {
     let data = req.body;
@@ -570,8 +478,6 @@ app.put('/update_author_form', function (req, res, next) {
     })
 });
 
-=======
->>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 /*
    LISTENER
 */

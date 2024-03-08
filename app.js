@@ -183,8 +183,14 @@ app.get("/customers", function (req, res) {
 // renders the Sales page
 app.get("/sales", function (req, res) {
   let query1 = `SELECT * FROM Sales;`;
+  let query2 = "SELECT * FROM Stores;";
   db.pool.query(query1, function (error, rows, fields) {
-    res.render("sales", { data: rows });
+    let sales = rows;
+    db.pool.query(query2, (error, rows, fields) => {
+      let stores = rows;
+
+      return res.render("sales", { data: sales, stores: stores });
+    });
   });
 });
 

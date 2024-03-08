@@ -118,17 +118,18 @@ app.get("/", function (req, res) {
 
 // renders the Books page
 app.get("/books", function (req, res) {
-  console.log("/books - app.js");
+  console.log("/books - app.js ", req.query.search);
   // If there is no query string, we just perform a basic SELECT
   // If there is a field in the search box, this does the search return
   let query1;
 
-  if (req.query.title === undefined) {
+  if (req.query.search === undefined) {
     query1 = `SELECT * FROM Books`;
   }
   // If there is a query string, we assume this is a search, and return desired results
   else {
-    query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.title}%"`;
+    console.log("catching search query");
+    query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
   }
 
   // Query 2 is the same in both cases

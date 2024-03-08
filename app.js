@@ -3,23 +3,20 @@
 // The following source was used to write the following code
 // Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
 
+var db = require("./database/db-connector");
 
+const { engine } = require("express-handlebars");
+var exphbs = require("express-handlebars");
+var express = require("express"); // We are using the express library for the web server
+var app = express(); // We need to instantiate an express object to interact with the server in our code
 
-var db = require('./database/db-connector')
+PORT = 27291; // Set a port number at the top so it's easy to change in the future
 
-const { engine } = require('express-handlebars');
-var exphbs = require('express-handlebars');
-var express = require('express');   // We are using the express library for the web server
-var app = express();            // We need to instantiate an express object to interact with the server in our code
-
-PORT = 27290;                 // Set a port number at the top so it's easy to change in the future
-
-app.engine('.hbs', engine({ extname: ".hbs" }));
-app.set('view engine', '.hbs');
-app.use(express.json())         // lines 7-9 enable express to handle JSON and form data
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'));
-
+app.engine(".hbs", engine({ extname: ".hbs" }));
+app.set("view engine", ".hbs");
+app.use(express.json()); // lines 7-9 enable express to handle JSON and form data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 // Data Manipulation Queries
 // --select authors(add all author data in addition to new "book(s)" column)
@@ -115,11 +112,12 @@ app.use(express.static('public'));
 */
 
 // renders the Home page
-app.get('/', function (req, res) {
-    res.render('index');
+app.get("/", function (req, res) {
+  res.render("index");
 });
 
 // renders the Books page
+<<<<<<< HEAD
 app.get('/books', function (req, res) {
     // If there is no query string, we just perform a basic SELECT
     // If there is a field in the search box, this does the search return
@@ -132,100 +130,134 @@ app.get('/books', function (req, res) {
     else {
         query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
     }
+=======
+app.get("/books", function (req, res) {
+  console.log("/books - app.js ", req.query.search);
+  // If there is no query string, we just perform a basic SELECT
+  // If there is a field in the search box, this does the search return
+  let query1;
 
-    // Query 2 is the same in both cases
-    let query2 = "SELECT * FROM Stores;";
+  if (req.query.search === undefined) {
+    query1 = `SELECT * FROM Books`;
+  }
+  // If there is a query string, we assume this is a search, and return desired results
+  else {
+    console.log("catching search query");
+    query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
+  }
 
-    db.pool.query(query1, function (error, rows, fields) {
-        // Save the books
-        let books = rows;
+  // Query 2 is the same in both cases
+  let query2 = "SELECT * FROM Stores;";
+>>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 
-        // Run the second query for dropdown Stores
-        db.pool.query(query2, (error, rows, fields) => {
+  db.pool.query(query1, function (error, rows, fields) {
+    // Save the books
+    let books = rows;
 
-            // Save the stores
-            let stores = rows;
+    // Run the second query for dropdown Stores
+    db.pool.query(query2, (error, rows, fields) => {
+      // Save the stores
+      let stores = rows;
 
-            return res.render('books', { data: books, stores: stores });
-        })
-    })
+      return res.render("books", { data: books, stores: stores });
+    });
+  });
 });
 
 // renders the Authors page
-app.get('/authors', function (req, res) {
-    let query1 = `SELECT * FROM Authors;`;
-    db.pool.query(query1, function (error, rows, fields) {
-        res.render('authors', { data: rows });
-    })
+app.get("/authors", function (req, res) {
+  let query1 = `SELECT * FROM Authors;`;
+  db.pool.query(query1, function (error, rows, fields) {
+    res.render("authors", { data: rows });
+  });
 });
 
 // renders the Books_has_Authors page
-app.get('/book_has_authors', function (req, res) {
-    let query1 = `SELECT * FROM Book_has_Authors;`;
-    db.pool.query(query1, function (error, rows, fields) {
-        res.render('book_has_authors', { data: rows });
-    })
+app.get("/book_has_authors", function (req, res) {
+  let query1 = `SELECT * FROM Book_has_Authors;`;
+  db.pool.query(query1, function (error, rows, fields) {
+    res.render("book_has_authors", { data: rows });
+  });
 });
 
 // renders the Stores page
-app.get('/stores', function (req, res) {
-    let query1 = `SELECT * FROM Stores;`;
-    db.pool.query(query1, function (error, rows, fields) {
-        res.render('stores', { data: rows });
-    })
+app.get("/stores", function (req, res) {
+  let query1 = `SELECT * FROM Stores;`;
+  db.pool.query(query1, function (error, rows, fields) {
+    res.render("stores", { data: rows });
+  });
 });
 
 // renders the Customers page
-app.get('/customers', function (req, res) {
-    let query1 = `SELECT * FROM Customers;`;
-    db.pool.query(query1, function (error, rows, fields) {
-        res.render('customers', { data: rows });
-    })
+app.get("/customers", function (req, res) {
+  let query1 = `SELECT * FROM Customers;`;
+  db.pool.query(query1, function (error, rows, fields) {
+    res.render("customers", { data: rows });
+  });
 });
 
 // renders the Sales page
-app.get('/sales', function (req, res) {
-    let query1 = `SELECT * FROM Sales;`;
-    db.pool.query(query1, function (error, rows, fields) {
-        res.render('sales', { data: rows });
-    })
+app.get("/sales", function (req, res) {
+  let query1 = `SELECT * FROM Sales;`;
+  let query2 = "SELECT * FROM Stores;";
+  db.pool.query(query1, function (error, rows, fields) {
+    let sales = rows;
+    db.pool.query(query2, (error, rows, fields) => {
+      let stores = rows;
+
+      return res.render("sales", { data: sales, stores: stores });
+    });
+  });
 });
 
 // renders the Sales_has_Books page
-app.get('/sales_has_books', function (req, res) {
-    let query1 = `SELECT * FROM Sales_has_Books;`;
-    db.pool.query(query1, function (error, rows, fields) {
-        res.render('sales_', { data: rows });
-    })
-})
-
-
+app.get("/sales_has_books", function (req, res) {
+  let query1 = `SELECT * FROM Sales_has_Books;`;
+  db.pool.query(query1, function (error, rows, fields) {
+    res.render("sales_", { data: rows });
+  });
+});
 
 // POST ROUTES
+<<<<<<< HEAD
 // Add a book
 app.post('/add-book-form-ajax', function (req, res) {
 
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
+=======
+app.post("/add-book-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
 
-    // Capture NULL values
-    let parsedPrice = parseInt(data.price);
-    if (isNaN(parsedPrice)) {
-        parsedPrice = 'NULL'
-    }
+  // Capture NULL values
+  let parsedPrice = parseInt(data.price);
+  if (isNaN(parsedPrice)) {
+    parsedPrice = "NULL";
+  }
+>>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Books (location, title, genre, price) VALUES ('${data.location}', '${data.title}', '${data.genre}', ${parsedPrice})`;
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // Check to see if there was an error
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Books (location, title, genre, price) VALUES ('${data.location}', '${data.title}', '${data.genre}', ${parsedPrice})`;
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If there was no error, perform a SELECT * on bsg_people
+      let query2 = `SELECT * FROM Books;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        // If there was an error on the second query, send a 400
         if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
+          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+          console.log(error);
+          res.sendStatus(400);
         }
+        // If all went well, send the results of the query back.
         else {
+<<<<<<< HEAD
             // If there was no error, perform a SELECT * on Books
             let query2 = `SELECT * FROM Books;`;
             db.pool.query(query2, function (error, rows, fields) {
@@ -242,33 +274,35 @@ app.post('/add-book-form-ajax', function (req, res) {
                     res.send(rows);
                 }
             })
+=======
+          res.send(rows);
+>>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
         }
-    })
+      });
+    }
+  });
 });
 
 // Add a customer
-app.post('/add-customer-form-ajax', function (req, res) {
+app.post("/add-customer-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
 
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.name}', '${data.email}')`;
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // Check to see if there was an error
-        if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-        else {
-            res.send(rows);
-        }   
-    })
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.name}', '${data.email}')`;
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.send(rows);
+    }
+  });
 });
 
+<<<<<<< HEAD
 
 // Add an author
 app.post('/add_author', function (req, res) {
@@ -291,8 +325,84 @@ app.post('/add_author', function (req, res) {
             res.send(rows);
         }
     })
+=======
+// Add a author
+app.post("/add_author", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Customers (name, email) VALUES ('${data.first_name}', '${data.last_name}')`;
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.send(rows);
+    }
+  });
+>>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 });
 
+// add store
+app.post("/add-store-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
+  db.pool.query(query1, function (error, result) {
+    // Check for errors
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If the insert operation was successful, fetch the updated data
+      let query2 = `SELECT * FROM Stores;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          // Send the fetched data as the response
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+// add sale
+app.post("/add-sale-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+
+  // Create the query and run it on the database
+  // INSERT INTO SALES(location, sale_customer, sales_no_tax, tax_collected, purchase_date)
+  // VALUES(: location, : sale_customer, : sales_no_tax, : tax_collected, : purchase_date);
+  let query1 = `INSERT INTO SALES(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', '${data.sale_customer}', '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
+  db.pool.query(query1, function (error, result) {
+    // Check for errors
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If the insert operation was successful, fetch the updated data
+      let query2 = `SELECT * FROM Sales;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          // Send the fetched data as the response
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
 
 // add a store
 app.post('/add-store-form-ajax', function (req, res) {
@@ -325,43 +435,46 @@ app.post('/add-store-form-ajax', function (req, res) {
 
 // DELETE ROUTES
 // Books table Cascades on delete, so we don't need multiple queries
-app.delete('/delete-book-ajax/', function (req, res, next) {
-    let data = req.body;
-    let book_id = parseInt(data.book_id);
-    let deleteBook = `DELETE FROM Books WHERE book_id = ?`;   // Books table, book_id is PK
+app.delete("/delete-book-ajax/", function (req, res, next) {
+  let data = req.body;
+  let book_id = parseInt(data.book_id);
+  let deleteBook = `DELETE FROM Books WHERE book_id = ?`; // Books table, book_id is PK
 
-    // Run the query
-    db.pool.query(deleteBook, [book_id], function (error, rows, fields) {
-
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            res.sendStatus(204);
-        }
-    })
+  // Run the query
+  db.pool.query(deleteBook, [book_id], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
 });
-
 
 // Delete a customer
-app.delete('/delete-customer-ajax/', function (req, res, next) {
-    let data = req.body;
-    let customer_id = parseInt(data.customer_id);
-    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;  
+app.delete("/delete-customer-ajax/", function (req, res, next) {
+  let data = req.body;
+  let customer_id = parseInt(data.customer_id);
+  let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;
 
-    // Run the query
-    db.pool.query(deleteCustomer, [customer_id], function (error, rows, fields) {
-
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            res.sendStatus(204);
-        }
-    })
+  // Run the query
+  db.pool.query(deleteCustomer, [customer_id], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
 });
 
+// delete a store
+app.delete("/delete-store-ajax/", function (req, res, next) {
+  let data = req.body;
+  let store_id = parseInt(data.store_id);
+  let deleteStore = `DELETE FROM Stores WHERE store_id = ?`;
 
+<<<<<<< HEAD
 // Delete a store
 app.delete('/delete-store-ajax/', function (req, res, next) {
     let data = req.body;
@@ -388,31 +501,59 @@ app.put('/put-book-location-ajax', function (req, res, next) {
     let data = req.body;
     let price = parseInt(data.price);
     let bookID = parseInt(data.book_id);
-
-
-    queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
-    selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
-
-    // 1st query
-    db.pool.query(queryUpdatePrice, [price, bookID], function (error, rows, fields) {
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            // 2nd query
-            db.pool.query(selectPrice, [price, bookID], function (error, rows, fields) {
-                if (error) {
-                    console.log(error)
-                    res.sendStatus(400);
-                } else {
-                    res.send(rows);
-                }
-            })
-        }
-    })
+=======
+  // Run the query
+  db.pool.query(deleteStore, [store_id], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
 });
 
+// UPDATE ROUTES
+app.put("/put-book-form-ajax", function (req, res, next) {
+  console.log("putting book - app.js");
+  let data = req.body;
+  let price = parseInt(data.price);
+  let bookID = parseInt(data.book_id);
+>>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
+
+  queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
+  selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
+
+  console.log("putting book data: ", data, price, bookID);
+
+  // 1st query
+  db.pool.query(
+    queryUpdatePrice,
+    [price, bookID],
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(400);
+      } else {
+        // 2nd query
+        db.pool.query(
+          selectPrice,
+          [price, bookID],
+          function (error, rows, fields) {
+            if (error) {
+              console.log(error);
+              res.sendStatus(400);
+            } else {
+              res.send(rows);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+<<<<<<< HEAD
 // Update Author's Name
 app.put('/update_author_form', function (req, res, next) {
     let data = req.body;
@@ -429,9 +570,16 @@ app.put('/update_author_form', function (req, res, next) {
     })
 });
 
+=======
+>>>>>>> 166e55ca132894cd513b162ca79abd9b6d487f54
 /*
    LISTENER
 */
-app.listen(PORT, function () {            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
-    console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
+app.listen(PORT, function () {
+  // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
+  console.log(
+    "Express started on http://localhost:" +
+      PORT +
+      "; press Ctrl-C to terminate."
+  );
 });

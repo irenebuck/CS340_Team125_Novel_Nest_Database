@@ -8,30 +8,26 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <br>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<div id="stores-table-div">
-    <fieldset>
-        <legend><strong>Stores</strong></legend>
-        <table id="stores-table">
-            <thead>
-                <tr>
-                    <th>Store ID</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.store_id}}>
-                    <td>{{this.store_id}}</td>
-                    <td>{{this.store_name}}</td>
-                    <td>{{this.store_address}}</td>
-                    <td><button onClick="updateAuthor({{this.author_id}})">Edit</button></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
-</div>
+<table id="stores-table">
+    <thead>
+        <tr>
+            <th>Store ID</th>
+            <th>Name</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.store_id}}>
+            <td>{{this.store_id}}</td>
+            <td>{{this.store_name}}</td>
+            <td>{{this.store_address}}</td>
+            <td><button onclick="deleteStore({{this.author_id}})">Delete</button></td>
+            <td><button onClick="updateStore({{this.author_id}})">Edit</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 
 <p>&nbsp;</p>
 

@@ -61,7 +61,7 @@ addStoreForm.addEventListener("submit", function (e) {
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the pPrice and clear it out.
-    let currentTable = document.getElementById("sales-table");
+    let currentTable = document.getElementById("stores-table");
     console.log("cur table: ", currentTable)
 
     // // Get the location where we should insert the new row (end of table) - we never use this
@@ -85,15 +85,24 @@ addRowToTable = (data) => {
     AddressCell.innerText = newRow.store_address;
 
     deleteCell = document.createElement("button");
-    deleteCell.innerHTML = "Edit";
+    deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function () {
-        // deleteBook(newRow.book_id);
+        deleteStore(newRow.store_id);
     };
+
+    editCell = document.createElement("button");
+    editCell.innerHTML = "Edit";
+    editCell.onclick = function () {
+        updateStore(newRow.store_id);
+    };
+
 
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(NameCell);
     row.appendChild(AddressCell);
+    row.appendChild(deleteCell);
+    // row.appendChild(editCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.store_id);

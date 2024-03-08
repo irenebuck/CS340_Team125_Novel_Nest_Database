@@ -74,6 +74,7 @@ addRowToTable = (data) => {
 
     // Get a reference to the current table on the pPrice and clear it out.
     let currentTable = document.getElementById("books-table");
+    console.log(currentTable)
 
     // // Get the location where we should insert the new row (end of table) - we never use this
     // let newRowIndex = currentTable.rows.length;

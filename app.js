@@ -390,13 +390,16 @@ app.delete("/delete-store-ajax/", function (req, res, next) {
 });
 
 // UPDATE ROUTES
-app.put("/put-book-location-ajax", function (req, res, next) {
+app.put("/put-book-form-ajax", function (req, res, next) {
+  console.log("putting book - app.js");
   let data = req.body;
   let price = parseInt(data.price);
   let bookID = parseInt(data.book_id);
 
   queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
   selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
+
+  console.log("putting book data: ", data, price, bookID);
 
   // 1st query
   db.pool.query(

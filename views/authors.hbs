@@ -1,71 +1,77 @@
-{{!-- // Citation for the following webpage:
+{{! // Citation for the following webpage:
 // Date: 3/1/2024
 // The following source was used to write the following code
 // Code source:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data }}
 
-
-<br>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<br />
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 
 <div id="authors-table-div">
-    <fieldset>
-        <legend><strong>Authors</strong></legend>
-        <table id="authors-table">
-            <thead>
-                <tr>
-                    <th>Author ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.author_id}}>
-                    <td>{{this.author_id}}</td>
-                    <td>{{this.first_name}}</td>
-                    <td>{{this.last_name}}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
+  <fieldset>
+    <legend><strong>Authors</strong></legend>
+    <table id="authors-table">
+      <thead>
+        <tr>
+          <th>Author ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each data}}
+          <tr data-value={{this.author_id}}>
+            <td>{{this.author_id}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </fieldset>
 </div>
 
-<br>
+<br />
 
 <div id="insertAuthor">
-    <form method="POST" id="add_author">
-        <fieldset class="fields">
-            <legend><strong>Add An Author</strong></legend>
-            <p>Initials or middle names should be included in First Name field.</p>
-            <label> First Name </label> <input type="text" name="authorfName" id="authorfName">
-            <label> Last Name</label> <input type="text" name="authorlName" id="authorlName">
-            <input type="submit">
-        </fieldset>
-    </form>
+  <form method="POST" id="add_author">
+    <fieldset class="fields">
+      <legend><strong>Add An Author</strong></legend>
+      <p>Initials or middle names should be included in First Name field.</p>
+      <label> First Name </label>
+      <input type="text" name="authorfName" id="authorfName" />
+      <label> Last Name</label>
+      <input type="text" name="authorlName" id="authorlName" />
+      <input type="submit" />
+    </fieldset>
+  </form>
 </div>
 <script src="./js/add_author.js"></script>
 
-<br>
+<br />
 
 <div id="updateAuthor">
-    <form method="PUT" id="update_author_form">
-        <fieldset class="fields">
-            <legend><strong>Update An Author</strong></legend>
-            <p>Enter both first and last name even if only changing one.</p>
-            <label for="updateAuthor">Author ID: </label>
-            <select name="updateAuthorID" id="updateAuthorID">
-                <option value="">Select an Author</option>
-                {{#each data}}
-                {{!-- Drop down to show Author's current full name --}}
-                <option value="{{this.author_id}}">{{this.first_name}}  {{this.last_name}}</option>
-                {{/each}}
-            </select>
-            <label> First Name </label> <input type="text" name="authorfNameUpdate" id="authorfNameUpdate">
-            <label> Last Name</label> <input type="text" name="authorlNameUpdate" id="authorlNameUpdate">
-            <input type="submit">
-        </fieldset>
-    </form>
+  <form method="PUT" id="put-author-form-ajax">
+    <fieldset class="fields">
+      <legend><strong>Update An Author</strong></legend>
+      <p>Enter both first and last name even if only changing one.</p>
+      <label for="updateAuthor">Author ID: </label>
+      <select name="updateAuthorID" id="updateAuthorID">
+        <option value="">Select an Author</option>
+        {{#each data}}
+          {{! Drop down to show Author's current full name }}
+          <option value="{{this.author_id}}">{{this.first_name}}
+            {{this.last_name}}</option>
+        {{/each}}
+      </select>
+      <label> First Name </label>
+      <input type="text" name="authorfNameUpdate" id="authorfNameUpdate" />
+      <label> Last Name</label>
+      <input type="text" name="authorlNameUpdate" id="authorlNameUpdate" />
+      <input type="submit" />
+    </fieldset>
+  </form>
 </div>
 <script src="./js/update_author.js"></script>

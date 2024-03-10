@@ -553,18 +553,42 @@ app.put("/put-customer-form-ajax", function (req, res, next) {
 });
 
 // Update Author's Name
-app.put("/update_author_form", function (req, res, next) {
+app.put("/put-author-form-ajax", function (req, res, next) {
   let data = req.body;
 
-  queryUpdateName = `UPDATE Authors SET first_name = '${data["authorfNameUpdate"]}', last_name = '${data["authorlNameUpdate"]}' WHERE author_id = '${data["updateAuthorID"]}'`;
-  db.pool.query(queryUpdateName, function (error, rows, fields) {
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.redirect("/authors");
+  let first_name = data.first_name;
+  let last_name = data.last_name;
+  let author_id = parseInt(data.author_id);
+
+  queryUpdateCustomer = `UPDATE Authors SET first_name = ?, last_name = ? WHERE author_id = ?`;
+  selectCustomer = `SELECT * FROM Authors WHERE author_id = ?`;
+
+  // 1st query
+  db.pool.query(
+    queryUpdateCustomer,
+    [first_name, last_name, author_id],
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(400);
+      } else {
+        // 2nd query
+        db.pool.query(
+          selectCustomer,
+          [author_id],
+          function (error, rows, fields) {
+            if (error) {
+              console.log(error);
+              res.sendStatus(400);
+            } else {
+              // console.log(rows);
+              res.send(rows);
+            }
+          }
+        );
+      }
     }
-  });
+  );
 });
 
 /*

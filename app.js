@@ -200,7 +200,7 @@ app.get("/sales", function (req, res) {
 app.get("/sales_has_books", function (req, res) {
   let query1 = `SELECT * FROM Sales_has_Books;`;
   db.pool.query(query1, function (error, rows, fields) {
-    res.render("sales_", { data: rows });
+    res.render("sales_has_books", { data: rows });
   });
 });
 
@@ -381,6 +381,34 @@ app.post("/add-book-has-authors-form-ajax", function (req, res) {
     } else {
       // If the insert operation was successful, fetch the updated data
       let query2 = `SELECT * FROM Book_has_Authors;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          // Send the fetched data as the response
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+//add sales has books
+app.post("/add-sales-has-books-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Sales_has_Books (sale, book) VALUES ('${data.sale}', '${data.book}')`;
+  db.pool.query(query1, function (error, result) {
+    // Check for errors
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If the insert operation was successful, fetch the updated data
+      let query2 = `SELECT * FROM Sales_has_Books;`;
       db.pool.query(query2, function (error, rows, fields) {
         if (error) {
           console.log(error);

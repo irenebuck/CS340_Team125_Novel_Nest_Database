@@ -28,7 +28,7 @@ updateBook.addEventListener("submit", function (e) {
     price: newBookPrice,
   };
 
-  console.log("updating book data: ", data);
+  // console.log("updating book data: ", data);
 
   // Setup AJAX request
   var xhttp = new XMLHttpRequest();
@@ -53,25 +53,28 @@ updateBook.addEventListener("submit", function (e) {
   xhttp.send(JSON.stringify(data));
 });
 
-function updateRow(data, book) {
+//data = price, book_id, rows (row that data is in)
+function updateRow(data) {
   let parseData = JSON.parse(data);
 
-  var table = document.getElementById("books-table");
-  var counter;
+  // console.log("info passed to updateRow: ", parseData[0].book_id);
 
-  //   console.log("parsed data", parseData);
+  var table = document.getElementById("books-table");
+  // console.log("table", table);
 
   for (var i = 0, row; (row = table.rows[i]); i++) {
-    if (table.rows[i].getAttribute("data-value") == book) {
-      var counter = i;
-      // Creates reference to the books table we want to update
-      let currentTable = document.getElementById("books-table");
-      // Get the locaiton where we found the matching book
-      let updateRowIndex = currentTable.getElementsByTagName("tr")[counter];
-      // Get the td of location value
-      var td = updateRowIndex.getElementsByTagName("td")[4];
-      // Reassign location
-      //   td.innerHTML = parseData[0].price; //TODO: bug
+    if (row.getAttribute("data-value") == parseData[0].book_id) {
+      var updatedPrice = parseData[0].price;
+
+      //update a cell here
+
+      let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+      let td = updateRowIndex.getElementsByTagName("td")[4];
+
+      td.innerHTML = updatedPrice;
+
+      break;
     }
   }
 }

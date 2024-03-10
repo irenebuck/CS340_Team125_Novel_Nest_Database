@@ -144,7 +144,7 @@ app.get("/books", function (req, res) {
       // Save the stores
       let stores = rows;
 
-      console.log(books, stores);
+      // console.log(books, stores);
       return res.render("books", { data: books, stores: stores });
     });
   });
@@ -428,8 +428,6 @@ app.put("/put-book-form-ajax", function (req, res, next) {
   queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
   selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
 
-  console.log("putting book data: ", data, price, bookID);
-
   // 1st query
   db.pool.query(
     queryUpdatePrice,
@@ -440,18 +438,15 @@ app.put("/put-book-form-ajax", function (req, res, next) {
         res.sendStatus(400);
       } else {
         // 2nd query
-        db.pool.query(
-          selectPrice,
-          [price, bookID],
-          function (error, rows, fields) {
-            if (error) {
-              console.log(error);
-              res.sendStatus(400);
-            } else {
-              res.send(rows);
-            }
+        db.pool.query(selectPrice, [bookID], function (error, rows, fields) {
+          if (error) {
+            console.log(error);
+            res.sendStatus(400);
+          } else {
+            // console.log(price, bookID, rows);
+            res.send(rows);
           }
-        );
+        });
       }
     }
   );

@@ -316,18 +316,18 @@ app.post("/add-sale-form-ajax", function (req, res) {
   // Create the query and run it on the database
   // INSERT INTO SALES(location, sale_customer, sales_no_tax, tax_collected, purchase_date)
   // VALUES(: location, : sale_customer, : sales_no_tax, : tax_collected, : purchase_date);
-  let query1 = `INSERT INTO SALES(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', '${data.sale_customer}', '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
+  let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', '${data.sale_customer}', '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
   db.pool.query(query1, function (error, result) {
     // Check for errors
     if (error) {
-      console.log(error);
+      console.log("1 : ", error);
       res.sendStatus(400);
     } else {
       // If the insert operation was successful, fetch the updated data
       let query2 = `SELECT * FROM Sales;`;
       db.pool.query(query2, function (error, rows, fields) {
         if (error) {
-          console.log(error);
+          console.log("2 : ", error);
           res.sendStatus(400);
         } else {
           // Send the fetched data as the response

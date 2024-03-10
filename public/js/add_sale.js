@@ -34,7 +34,13 @@ addSaleForm.addEventListener("submit", function (e) {
     purchase_date: DateValue,
   };
 
-  // console.log("data object for add_book: " + data.location + data.title + data.genre + data.price)
+  // console.log(
+  //   "data object for add_book: " +
+  //     data.location +
+  //     data.title +
+  //     data.genre +
+  //     data.price
+  // );
 
   // Setup our AJAX request
   var xhttp = new XMLHttpRequest();

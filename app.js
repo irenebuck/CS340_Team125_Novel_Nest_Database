@@ -144,6 +144,7 @@ app.get("/books", function (req, res) {
       // Save the stores
       let stores = rows;
 
+      console.log(books, stores);
       return res.render("books", { data: books, stores: stores });
     });
   });
@@ -260,28 +261,23 @@ app.post("/add-customer-form-ajax", function (req, res) {
   });
 });
 
-
 // Add an author
-app.post('/add_author', function (req, res) {
+app.post("/add_author", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
 
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Authors (first_name, last_name) VALUES ('${data.first_name}', '${data.last_name}')`;
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // Check to see if there was an error
-        if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-        else {
-            res.send(rows);
-        }
-    })
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Authors (first_name, last_name) VALUES ('${data.first_name}', '${data.last_name}')`;
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.send(rows);
+    }
+  });
 });
 
 // add store
@@ -343,33 +339,32 @@ app.post("/add-sale-form-ajax", function (req, res) {
 });
 
 // add a store
-app.post('/add-store-form-ajax', function (req, res) {
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
+app.post("/add-store-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
 
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
-    db.pool.query(query1, function (error, result) {
-        // Check for errors
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
+  db.pool.query(query1, function (error, result) {
+    // Check for errors
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If the insert operation was successful, fetch the updated data
+      let query2 = `SELECT * FROM Stores;`;
+      db.pool.query(query2, function (error, rows, fields) {
         if (error) {
-            console.log(error);
-            res.sendStatus(400);
+          console.log(error);
+          res.sendStatus(400);
         } else {
-            // If the insert operation was successful, fetch the updated data
-            let query2 = `SELECT * FROM Stores;`;
-            db.pool.query(query2, function (error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    // Send the fetched data as the response
-                    res.send(rows);
-                }
-            });
+          // Send the fetched data as the response
+          res.send(rows);
         }
-    });
+      });
+    }
+  });
 });
-
 
 // DELETE ROUTES
 // Books table Cascades on delete, so we don't need multiple queries
@@ -463,19 +458,18 @@ app.put("/put-book-form-ajax", function (req, res, next) {
 });
 
 // Update Author's Name
-app.put('/update_author_form', function (req, res, next) {
-    let data = req.body;
+app.put("/update_author_form", function (req, res, next) {
+  let data = req.body;
 
-    queryUpdateName = `UPDATE Authors SET first_name = '${data['authorfNameUpdate']}', last_name = '${data['authorlNameUpdate']}' WHERE author_id = '${data['updateAuthorID']}'`;
-    db.pool.query(queryUpdateName, function (error, rows, fields) {
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            res.redirect('/authors');
-        }
-    })
+  queryUpdateName = `UPDATE Authors SET first_name = '${data["authorfNameUpdate"]}', last_name = '${data["authorlNameUpdate"]}' WHERE author_id = '${data["updateAuthorID"]}'`;
+  db.pool.query(queryUpdateName, function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.redirect("/authors");
+    }
+  });
 });
 
 /*

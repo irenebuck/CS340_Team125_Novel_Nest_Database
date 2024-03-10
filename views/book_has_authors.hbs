@@ -7,9 +7,9 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <br>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<div id="bookAuthorDiv">
+<div id="bookAuthorsDiv">
     <fieldset>
-        <legend><strong>Book Authors</strong></legend>
+        <legend><strong>Book has Authors</strong></legend>
         <table id="book-authors-table">
             <thead>
                 <th>Book And Author ID</th>
@@ -19,8 +19,8 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
             </thead>
             <tbody>
                 {{#each data}}
-                <tr data-value={{this.book_has_author_id}}>
-                    <td>{{this.book_has_author_id}}</td>
+                <tr data-value={{this.book_has_authors_id}}>
+                    <td>{{this.book_has_authors_id}}</td>
                     <td>{{this.book}}</td>
                     <td>{{this.author}}</td>
                 </tr>
@@ -29,3 +29,21 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
         </table>
     </fieldset>
 </div>
+
+<div id="addBookAuthorsDiv">
+  <fieldset>
+    <legend>Add Book has Authors</legend>
+    <p>Please enter all fields</p>
+    <form id="add-book-has-authors-form-ajax">
+
+      <label for="input-title">Book: </label>
+      <input type="text" name="input-book" id="input-book" />
+
+      <label for="input-genre">Author: </label>
+      <input type="text" name="input-author" id="input-author" />
+
+      <input type="submit" />
+    </form>
+  </fieldset>
+</div>
+<script src="./js/add_book_has_authors.js"></script>

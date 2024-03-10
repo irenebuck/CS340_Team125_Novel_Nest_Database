@@ -366,6 +366,34 @@ app.post("/add-store-form-ajax", function (req, res) {
   });
 });
 
+//add book has authors
+app.post("/add-book-has-authors-form-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+
+  // Create the query and run it on the database
+  let query1 = `INSERT INTO Book_has_Authors (book, author) VALUES ('${data.book}', '${data.author}')`;
+  db.pool.query(query1, function (error, result) {
+    // Check for errors
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If the insert operation was successful, fetch the updated data
+      let query2 = `SELECT * FROM Book_has_Authors;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          // Send the fetched data as the response
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
 // DELETE ROUTES
 // Books table Cascades on delete, so we don't need multiple queries
 app.delete("/delete-book-ajax/", function (req, res, next) {

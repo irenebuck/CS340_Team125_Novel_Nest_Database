@@ -508,6 +508,50 @@ app.put("/put-book-form-ajax", function (req, res, next) {
   );
 });
 
+//update customer
+app.put("/put-customer-form-ajax", function (req, res, next) {
+  console.log("putting customer - app.js");
+  let data = req.body;
+
+  // console.log(data);
+
+  let name = data.name;
+  let email = data.email;
+  let customer_id = parseInt(data.customer_id);
+
+  // console.log(name, email, customer_id);
+
+  queryUpdateCustomer = `UPDATE Customers SET name = ?, email = ? WHERE customer_id = ?`;
+  selectCustomer = `SELECT * FROM Customers WHERE customer_id = ?`;
+
+  // 1st query
+  db.pool.query(
+    queryUpdateCustomer,
+    [name, email, customer_id],
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(400);
+      } else {
+        // 2nd query
+        db.pool.query(
+          selectCustomer,
+          [customer_id],
+          function (error, rows, fields) {
+            if (error) {
+              console.log(error);
+              res.sendStatus(400);
+            } else {
+              // console.log(rows);
+              res.send(rows);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
 // Update Author's Name
 app.put("/update_author_form", function (req, res, next) {
   let data = req.body;

@@ -1,54 +1,52 @@
-{{!-- // Citation for the following webpage:
+{{! // Citation for the following webpage:
 // Date: 3/1/2024
 // The following source was used to write the following code
 // Code source:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data }}
 
-<br>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<br />
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 
-<div id="saleBooksDiv">
-    <fieldset>
-        <legend><strong>Books Sold</strong></legend>
-        <table id="sale_books_table">
-            <thead>
-                <tr>
-                    <th>Book Sale ID</th>
-                    <th>Sale ID</th>
-                    <th>Book ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.sale_has_books_id}}>
-                    <td>{{this.sale_has_books_id}}</td>
-                    <td>{{this.sale}}</td>
-                    <td>{{this.book}}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
+<div id="salesBooksDiv">
+  <fieldset>
+    <legend><strong>Books Sold</strong></legend>
+    <table id="sales_books_table">
+      <thead>
+        <tr>
+          <th>Book Sale ID</th>
+          <th>Sale ID</th>
+          <th>Book ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each data}}
+          <tr data-value={{this.sales_has_books_id}}>
+            <td>{{this.sales_has_books_id}}</td>
+            <td>{{this.sale}}</td>
+            <td>{{this.book}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </fieldset>
 </div>
 
+<div id="addSalesBooksDiv">
+  <fieldset>
+    <legend>Add Sales has Books</legend>
+    <p>Please enter all fields</p>
+    <form id="add-sales-has-books-form-ajax">
 
-<div id="addBookSaleDiv">
-    <form method="POST" id="addBookSale">
-        <fieldset class="fields">
-            <legend><strong>Add Book Sale</strong></legend>
-            <label> Sale ID/ Transaction Number </label>
-            <input type="number" name="sale_id">
-            <label> Book ID </label> <select type="text" name="book_id">
-                <option value="0">&nbsp;</option>
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
-            <input class="btn" type="submit" id="addSaleBookbtn" value="Add">
-            <input class="btn" type="button" value="Cancel" onClick="showSalesWithBooks()">
-        </fieldset>
+      <label for="input-sale">Sale: </label>
+      <input type="text" name="input-sale" id="input-sale" />
+
+      <label for="input-book">Book: </label>
+      <input type="text" name="input-book" id="input-book" />
+
+      <input type="submit" />
     </form>
+  </fieldset>
 </div>
+<script src="./js/add_sales_has_books.js"></script>

@@ -1,82 +1,84 @@
-let updateAuthorForm = document.getElementById("update_author_form");
+// Citation for the following webpage:
+// Date: 3/1/2024
+// The following source was used to write the following code
+// Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+
+// Get the object to modify
+let updateAuthor = document.getElementById("put-author-form-ajax");
 
 // Modification
-updateAuthorForm.addEventListener("submit", function (e) {
+updateAuthor.addEventListener("submit", function (e) {
+  console.log("updating author - update_author.js");
+  // prevents form submission
+  e.preventDefault();
 
-    // prevents form submission
-    e.preventDefault();
+  // get form fields, then get values
+  let inputAuthor = document.getElementById("updateAuthorID");
+  let inputFName = document.getElementById("authorfNameUpdate");
+  let inputLName = document.getElementById("authorlNameUpdate");
 
-    // get form fields
-    let author_id = document.getElementById("updateAuthorID");
-    let authorFirst = document.getElementById("authorfNameUpdate");
-    let authorLast = document.getElementById("authorlNameUpdate");
+  let AuthorValue = inputAuthor.value;
+  let FNameValue = inputFName.value;
+  let LNameValue = inputLName.value;
 
-    // get values of form entries
-    let idValue = author_id.value;
-    let fnameValue = authorFirst.value;
-    let lnameValue = authorLast.value;
+  // Make a JSON with the data we want to send
+  let data = {
+    author_id: AuthorValue,
+    first_name: FNameValue,
+    last_name: LNameValue,
+  };
 
-    // Stop if either value is NULL
-    if (isNaN(bookIDValue) || isNaN(newBookPrice)) {
-        return;
+  console.log("data: ", data);
+
+  // Setup AJAX request
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", "/put-author-form-ajax", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+
+  // Direct AJAX resolution
+  xhttp.onreadystatechange = () => {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      // Update the book's location
+      updateRow(xhttp.response, AuthorValue);
+
+      // Clear the input fields for another transaction
+      inputAuthor.value = "";
+      inputFName.value = "";
+      inputLName.value = "";
+    } else if (xhttp.readyState == 4 && xhttp.status != 200) {
+      console.log("There was an error with the input.");
     }
+  };
 
-    // Make a JSON with the data we want to send
-    let data = {
-        author_id: idValue,
-        first_name: fnameValue,
-        last_name: lnameValue
-    };
+  // Send request and await response
+  xhttp.send(JSON.stringify(data));
+});
 
-    // Check that the fields are completed
-    for (let key in data) {
-        if (!data[key]) {
-            alert('Please complete first and last name,, even if you are only changing one of the fields. Thank you!');
-            return;
-        }
+//data = price, book_id, rows (row that data is in)
+function updateRow(data) {
+  let parseData = JSON.parse(data);
+
+  // console.log("info passed to updateRow: ", parseData[0].book_id);
+
+  var table = document.getElementById("authors-table");
+  // console.log("table", table);
+
+  for (var i = 0, row; (row = table.rows[i]); i++) {
+    if (row.getAttribute("data-value") == parseData[0].author_id) {
+      var updatedFName = parseData[0].first_name;
+      var updatedLName = parseData[0].last_name;
+
+      //update a cell here
+
+      let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+      let td_fname = updateRowIndex.getElementsByTagName("td")[1];
+      let td_lname = updateRowIndex.getElementsByTagName("td")[2];
+
+      td_fname.innerHTML = updatedFName;
+      td_lname.innerHTML = updatedLName;
+
+      break;
     }
-
-    // Setup AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/update_author_form", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-
-    // Direct AJAX resolution
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            // Update the author with new data
-            updateRow(xhttp.response, idValue);
-
-            // Clear the input fields for another transaction
-            author_id.value = '';
-            authorFirst.value = '';
-            authorLast.value = '';
-        }
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
-        }
-    }
-
-    // Send request and await response
-    xhttp.send(JSON.stringify(data));
-    location.reload();
-})
-
-
-function updateRow(data, author_id) {
-    let parseData = JSON.parse(data);
-    let table = document.getElementById("authors-table");
-
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        // if the row is the author's row(the one to update)
-        if (table.rows[i].getAttribute("data-value") == author_id) {
-            // save the index to rowIndex
-            let rowIndex = i;
-            // update the values in each cell            
-            for (let j = 1; j < dataLen; j++) {
-                table.rows[rowIndex].cells[j].textContent = parseData[j].value;
-            }
-        }
-    }
-};
+  }
+}

@@ -13,34 +13,17 @@ CREATE OR REPLACE TABLE Stores (
     PRIMARY KEY (store_id)
 );
 
--- create authors table
-CREATE OR REPLACE TABLE Authors (
-    author_id INT NOT NULL AUTO_INCREMENT, -- pk
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (author_id)
-);
-
 -- create books table
 CREATE OR REPLACE TABLE Books (
     book_id INT NOT NULL AUTO_INCREMENT, -- pk
     location INT NOT NULL,  -- fk, store_id from Stores
     title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
     genre VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (book_id),
     FOREIGN KEY (location) REFERENCES Stores(store_id)
     ON DELETE CASCADE
-);
-
--- create books_has_authors table
-CREATE OR REPLACE TABLE Book_has_Authors (
-    book_has_authors_id INT NOT NULL AUTO_INCREMENT, -- pk
-    book INT NOT NULL, -- fk, book_id from Books
-    author INT NOT NULL, -- fk, author_id from Authors
-    PRIMARY KEY (book_has_authors_id),
-    FOREIGN KEY (book) REFERENCES Books(book_id),
-    FOREIGN KEY (author) REFERENCES Authors(author_id)
 );
 
 -- create customers table
@@ -81,29 +64,15 @@ VALUES
     ('Novel Nest - Corvallis', '1500 SW Jefferson Way, Corvallis, OR 97331'),
     ('Novel Nest - Rocklin', '5100 Sierra College Blvd, Rocklin, CA 95677');
 
--- add data to Authors table
-INSERT INTO Authors (first_name, last_name)
-VALUES
-    ('Wanda', 'Dunn'),
-    ('Stephen', 'Cooper'),
-    ('Randy', 'Pausch'),
-    ('Stephen', 'Kochan'),
-    ('Marijn', 'Haverbeke'),
-    ('Micheal', 'Kerrisk'),
-    ('Simson', 'Garfinkel'),
-    ('Gene', 'Spafford'),
-    ('Alan', 'Schwartz'),
-    ('Jeffrey', 'Zaslow');
-
 -- add data to Books table
-INSERT INTO Books (location, title, genre, price)
+INSERT INTO Books (location, title, author, genre, price)
 VALUES
-    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Portland'), 'Practical Unix & Internet Security', 'Technology', 30),
-    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Corvallis'), 'Eloquent JavaScript', 'Self-Help', 25),
-    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Rocklin'), 'Programming In C', 'Technology', 30),
-    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Corvallis'), 'The Linux Programming Interface', 'Technology', 45),
-    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Rocklin'), 'Learning To Program In ALICE', 'Romance', 15),
-    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Portland'), 'The Last Lecture', 'Autobiography', 10);
+    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Portland'), 'Practical Unix & Internet Security','Simon Garfinkel, Gene Spafford, Alan Schwartz',  'Technology', 30),
+    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Corvallis'), 'Eloquent JavaScript', 'Marijn Haverbeke', 'Self-Help', 25),
+    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Rocklin'), 'Programming In C', 'Stephen G. Kochan', 'Technology', 30),
+    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Corvallis'), 'The Linux Programming Interface', 'Michael Kerrisk', 'Technology', 45),
+    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Rocklin'), 'Learning To Program In ALICE', 'Wanda P.Dann, Stephen Cooper, Randy Pausch', 'Romance', 15),
+    ((SELECT store_id FROM Stores WHERE store_name = 'Novel Nest - Portland'), 'The Last Lecture', 'Randy Pausch, Jeffrey Zaslow', 'Autobiography', 10);
 
 -- add data to Customers table
 INSERT INTO Customers (name, email)
@@ -151,54 +120,6 @@ VALUES
         60,
         6.00,
         '2024-02-14 11:11:00'
-    );
-
--- add data to Book_has_Authors table
-INSERT INTO Book_has_Authors (book, author)
-VALUES
-    (
-        (SELECT book_id FROM Books WHERE title = 'Practical Unix & Internet Security'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Simson' AND last_name = 'Garfinkel')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Practical Unix & Internet Security'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Gene' AND last_name = 'Spafford')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Practical Unix & Internet Security'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Alan' AND last_name = 'Schwartz')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Eloquent JavaScript'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Marijn' AND last_name = 'Haverbeke')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Programming In C'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Stephen' AND last_name = 'Kochan')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'The Linux Programming Interface'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Micheal' AND last_name = 'Kerrisk')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Learning To Program In ALICE'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Wanda' AND last_name = 'Dunn')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Learning To Program In ALICE'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Stephen' AND last_name = 'Cooper')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'Learning To Program In ALICE'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Randy' AND last_name = 'Pausch')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'The Last Lecture'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Randy' AND last_name = 'Pausch')
-    ),
-    (
-        (SELECT book_id FROM Books WHERE title = 'The Last Lecture'),
-        (SELECT author_id FROM Authors WHERE first_name = 'Jeffrey' AND last_name = 'Zaslow')
     );
 
 -- add data to Sales_has_Books table

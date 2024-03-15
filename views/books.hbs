@@ -4,8 +4,6 @@
 // Code source:
 https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
 <br>
 
 <div id="searchBookDiv">
@@ -45,10 +43,10 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <div id="searchBookDiv">
     <fieldset>
         <legend>Search For A Book </legend>
-        <p>Search for a book using the field below. Partial information works, too!</p>
+        <p>Search for a book title using the field below. Partial information works, too!</p>
         <form id="search-book-html" method="GET" action="/books">
-            <label for="input-title">Search by Title: </label>
-            <input type="text" name="search" id="input-title-html-search" />
+            <label for="search">Search by Title: </label>
+            <input type="text" name="search" id="search" />
             <input type="submit" />
             <a href="/books"><button>Reset</button></a>
         </form>
@@ -91,6 +89,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <div id="updateBookDiv">
     <fieldset>
         <legend>Update A Book</legend>
+        <p>Please enter all fields</p>
         <form id="update-book-form-ajax">
             <label for="update-bookID">Book: </label>
             <select name="update-bookID" id="update-bookID">
@@ -100,8 +99,17 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
                 {{/each}}
             </select>
 
-            <label for="input-newPrice">New Price: $</label>
-            <input type="number" min=0 name="input-newPrice" id="input-newPrice">
+            <label for="newTitle">Title:</label>
+            <input type="text" name="newTitle" id="newTitle">
+
+            <label for="newAuthor">Author:</label>
+            <input type="text" name="newAuthor" id="newAuthor">
+
+            <label for="newGenre">Genre:</label>
+            <input type="text" name="newGenre" id="newGenre">
+
+            <label for="newPrice">Price: $</label>
+            <input type="number" min=0 name="newPrice" id="newPrice">
 
             <input type="submit">
         </form>

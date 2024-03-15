@@ -63,7 +63,7 @@ app.get("/books", function (req, res) {
 
             // this overwrite the store_id number with the location name AKA store_name
             books = books.map(book => {
-                return Object.assign(book, { location: storemap[book.location] })
+                return Object.assign(book, {location: storemap[book.location]})
             })
 
             // console.log(books, stores);
@@ -177,7 +177,7 @@ app.post('/add-customer-form-ajax', function (req, res) {
         }
         else {
             res.send(rows);
-        }
+        }   
     })
 });
 
@@ -292,7 +292,7 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
 app.delete('/delete-customer-ajax/', function (req, res, next) {
     let data = req.body;
     let customer_id = parseInt(data.customer_id);
-    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;
+    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;  
 
     // Run the query
     db.pool.query(deleteCustomer, [customer_id], function (error, rows, fields) {
@@ -329,34 +329,31 @@ app.delete('/delete-store-ajax/', function (req, res, next) {
 
 // UPDATE ROUTES
 // update a book
-app.put("/put-book-form-ajax", function (req, res, next) {
-    console.log("putting book - app.js");
+app.put("/update-book-form-ajax", function (req, res, next) {
     let data = req.body;
+    let id = parseInt(data.book_id);
+    let title = data.title;
+    let author = data.author;
+    let genre = data.genre;
     let price = parseInt(data.price);
-    let bookID = parseInt(data.book_id);
 
-    queryUpdatePrice = `UPDATE Books SET price = ? WHERE book_id = ?`;
-    selectPrice = `SELECT * FROM Books WHERE book_id = ?`;
+    queryUpdateBook = `UPDATE Books SET title = ?, author = ?, genre = ?, price = ? WHERE book_id = ?`;
+    selectBooks = `SELECT * FROM Books WHERE book_id = ?`;
 
-    // 1st query
-    db.pool.query(
-        queryUpdatePrice,
-        [price, bookID],
-        function (error, rows, fields) {
+    db.pool.query(queryUpdateBook, [id, title, author, genre, price], function (error, rows, fields) {
             if (error) {
                 console.log(error);
                 res.sendStatus(400);
             } else {
                 // 2nd query
-                db.pool.query(selectPrice, [bookID], function (error, rows, fields) {
+                db.pool.query(selectBooks, [id], function (error, rows, fields) {
                     if (error) {
                         console.log(error);
                         res.sendStatus(400);
                     } else {
-                        // console.log(price, bookID, rows);
                         res.send(rows);
                     }
-                });
+                });s
             }
         }
     );
@@ -366,32 +363,21 @@ app.put("/put-book-form-ajax", function (req, res, next) {
 app.put("/update-customer-form-ajax", function (req, res, next) {
     console.log("putting customer - app.js");
     let data = req.body;
-
-    // console.log(data);
-
     let name = data.name;
     let email = data.email;
     let customer_id = parseInt(data.customer_id);
-
-    // console.log(name, email, customer_id);
 
     queryUpdateCustomer = `UPDATE Customers SET name = ?, email = ? WHERE customer_id = ?`;
     selectCustomer = `SELECT * FROM Customers WHERE customer_id = ?`;
 
     // 1st query
-    db.pool.query(
-        queryUpdateCustomer,
-        [name, email, customer_id],
-        function (error, rows, fields) {
+    db.pool.query(queryUpdateCustomer, [name, email, customer_id], function (error, rows, fields) {
             if (error) {
                 console.log(error);
                 res.sendStatus(400);
             } else {
                 // 2nd query
-                db.pool.query(
-                    selectCustomer,
-                    [customer_id],
-                    function (error, rows, fields) {
+                db.pool.query(selectCustomer, [customer_id], function (error, rows, fields) {
                         if (error) {
                             console.log(error);
                             res.sendStatus(400);
@@ -403,6 +389,37 @@ app.put("/update-customer-form-ajax", function (req, res, next) {
                 );
             }
         }
+    );
+});
+
+//update store
+app.put("/update-store-form-ajax", function (req, res, next) {
+    let data = req.body;
+    let id = parseInt(data.store_id);
+    let name = data.store_name;
+    let address = data.store_address;
+
+    queryUpdateStore = `UPDATE Stores SET store_name = ?, store_address = ? WHERE store_id = ?`;
+    selectStores = `SELECT * FROM Stores WHERE store_id = ?`;
+
+    // 1st query
+    db.pool.query(queryUpdateStore, [id, name, address], function (error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // 2nd query
+            db.pool.query(selectStores, [id], function (error, rows, fields) {
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    }
+                }
+            );
+        }
+    }
     );
 });
 

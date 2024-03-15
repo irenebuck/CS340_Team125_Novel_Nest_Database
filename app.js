@@ -35,7 +35,7 @@ app.get("/books", function (req, res) {
 
     let query1;
 
-    if (req.query.search_title === undefined) {
+    if (req.query.search === undefined) {
         query1 = `SELECT * FROM Books`;
     }
     // If there is a query string, we assume this is a search, and return desired results
@@ -177,7 +177,7 @@ app.post('/add-customer-form-ajax', function (req, res) {
         }
         else {
             res.send(rows);
-        }   
+        }
     })
 });
 
@@ -186,27 +186,27 @@ app.post("/add-store-form-ajax", function (req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
-  // Create the query and run it on the database
-  let query1 = `INSERT INTO Book_has_Authors (book, author) VALUES ('${data.book}', '${data.author}')`;
-  db.pool.query(query1, function (error, result) {
-    // Check for errors
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      // If the insert operation was successful, fetch the updated data
-      let query2 = `SELECT * FROM Book_has_Authors;`;
-      db.pool.query(query2, function (error, rows, fields) {
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Stores (store_name, store_address) VALUES ('${data.store_name}', '${data.store_address}')`;
+    db.pool.query(query1, function (error, result) {
+        // Check for errors
         if (error) {
-          console.log(error);
-          res.sendStatus(400);
+            console.log(error);
+            res.sendStatus(400);
         } else {
-          // Send the fetched data as the response
-          res.send(rows);
+            // If the insert operation was successful, fetch the updated data
+            let query2 = `SELECT * FROM Stores;`;
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // Send the fetched data as the response
+                    res.send(rows);
+                }
+            });
         }
-      });
-    }
-  });
+    });
 });
 
 // add sale
@@ -292,7 +292,7 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
 app.delete('/delete-customer-ajax/', function (req, res, next) {
     let data = req.body;
     let customer_id = parseInt(data.customer_id);
-    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;  
+    let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;
 
     // Run the query
     db.pool.query(deleteCustomer, [customer_id], function (error, rows, fields) {
@@ -363,7 +363,7 @@ app.put("/put-book-form-ajax", function (req, res, next) {
 });
 
 //update customer
-app.put("/put-customer-form-ajax", function (req, res, next) {
+app.put("/update-customer-form-ajax", function (req, res, next) {
     console.log("putting customer - app.js");
     let data = req.body;
 

@@ -10,7 +10,7 @@ let addBookForm = document.getElementById('add-book-form-ajax');
 // Modify the objects we need
 addBookForm.addEventListener("submit", function (e) {
 
-    // console.log("add book - add_book.js");
+    console.log("add book - add_book.js");
 
     // Prevent the form from submitting
     e.preventDefault();
@@ -18,12 +18,14 @@ addBookForm.addEventListener("submit", function (e) {
     // Get form fields we need to get data from
     let inputLocation = document.getElementById("input-location");
     let inputTitle = document.getElementById("input-title");
+    let inputAuthor = document.getElementById("input-author");
     let inputGenre = document.getElementById("input-genre");
     let inputPrice = document.getElementById("input-price");
 
     // Get the values from the form fields
     let LocationValue = inputLocation.value;
     let TitleValue = inputTitle.value;
+    let AuthorValue = inputAuthor.value;
     let GenreValue = inputGenre.value;
     let PriceValue = inputPrice.value;
 
@@ -31,11 +33,10 @@ addBookForm.addEventListener("submit", function (e) {
     let data = {
         location: LocationValue,
         title: TitleValue,
+        author: AuthorValue,
         genre: GenreValue,
         price: PriceValue
     }
-
-    // console.log("data object for add_book: " + data.location + data.title + data.genre + data.price)
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -44,7 +45,6 @@ addBookForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        // console.log("xhttp block");
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
@@ -53,28 +53,26 @@ addBookForm.addEventListener("submit", function (e) {
             // Clear the input fields for another transaction
             inputLocation.value = '';
             inputTitle.value = '';
+            inputAuthor.value = '';
             inputGenre.value = '';
             inputPrice.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input. status: ", xhttp.status, " readystate: ", xhttp.readyState)
+            console.log("There was an error with the input.")
         }
     }
-    // console.log("stringified data in add_book.js: " + JSON.stringify(data))
-    // console.log("genre type : " + typeof(data.genre))
+
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+    location.reload();
 })
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people
 addRowToTable = (data) => {
 
-    // console.log("adding row to table in add_book.js" + data)
-
     // Get a reference to the current table on the pPrice and clear it out.
     let currentTable = document.getElementById("books-table");
-    console.log(currentTable)
 
     // // Get the location where we should insert the new row (end of table) - we never use this
     // let newRowIndex = currentTable.rows.length;
@@ -83,13 +81,12 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    console.log(parsedData)
-
     // Create a row and 4 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let LocationCell = document.createElement("TD");
     let TitleCell = document.createElement("TD");
+    let AuthorCell = document.createElement("TD");
     let GenreCell = document.createElement("TD");
     let PriceCell = document.createElement("TD");
 
@@ -97,6 +94,7 @@ addRowToTable = (data) => {
     idCell.innerText = newRow.book_id;
     LocationCell.innerText = newRow.location;
     TitleCell.innerText = newRow.title;
+    AuthorCell.innerText = newRow.author;
     GenreCell.innerText = newRow.genre;
     PriceCell.innerText = newRow.price;
 
@@ -110,6 +108,7 @@ addRowToTable = (data) => {
     row.appendChild(idCell);
     row.appendChild(LocationCell);
     row.appendChild(TitleCell);
+    row.appendChild(AuthorCell);
     row.appendChild(GenreCell);
     row.appendChild(PriceCell);
     row.appendChild(deleteCell);

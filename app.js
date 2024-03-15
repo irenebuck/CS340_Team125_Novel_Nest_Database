@@ -33,15 +33,14 @@ app.get('/', function (req, res) {
 // renders the Books page
 app.get("/books", function (req, res) {
 
-   let query1;
+    let query1;
 
     if (req.query.search_title === undefined) {
         query1 = `SELECT * FROM Books`;
     }
     // If there is a query string, we assume this is a search, and return desired results
     else {
-        console.log("catching search query");
-        query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search_title}%"`;
+        query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
     }
 
     // Query 2 is the same in both cases
@@ -51,7 +50,7 @@ app.get("/books", function (req, res) {
         // Save the books
         let books = rows;
 
-        // Run the second query for dropdown Stores
+        // Run the second query
         db.pool.query(query2, (error, rows, fields) => {
             // Save the stores
             let stores = rows;
@@ -62,8 +61,13 @@ app.get("/books", function (req, res) {
                 storemap[id] = store["store_name"]
             })
 
+            // this overwrite the store_id number with the location name AKA store_name
+            books = books.map(book => {
+                return Object.assign(book, { location: storemap[book.location] })
+            })
+
             // console.log(books, stores);
-            return res.render("books", { data: books, stores: stores });
+            return res.render('books', { data: books, stores: stores });
         });
     });
 });

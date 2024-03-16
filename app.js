@@ -11,14 +11,12 @@ const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');
 var express = require('express');   // We are using the express library for the web server
 var app = express();            // We need to instantiate an express object to interact with the server in our code
-
-PORT = 27290;                 // Set a port number at the top so it's easy to change in the future
+PORT = 27240;                 // Set a port number at the top so it's easy to change in the future
 
 app.engine('.hbs', engine({ extname: ".hbs" }));
 app.set('view engine', '.hbs');
 app.use(express.json())         // lines 7-9 enable express to handle JSON and form data
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'));
 
 
 /*

@@ -1,80 +1,75 @@
-{{! // Citation for the following webpage:
+{{!-- // Citation for the following webpage:
 // Date: 3/1/2024
 // The following source was used to write the following code
 // Code source:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data }}
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<br />
-<script
-  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-></script>
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 
 <div id="customers-table-div">
-  <fieldset>
-    <legend><strong>Customers</strong></legend>
-    <table id="customers-table">
-      <thead>
-        <tr>
-          <th>Customer ID</th>
-          <th>Name</th>
-          <th>Email Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each data}}
-          <tr data-value={{this.customer_id}}>
-            <td>{{this.customer_id}}</td>
-            <td>{{this.name}}</td>
-            <td>{{this.email}}</td>
-            <td><button
-                onClick="deleteCustomer({{this.customer_id}})"
-              >Delete</button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </fieldset>
+    <fieldset>
+        <legend><strong>Customers</strong></legend>
+        <table id="customers-table">
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.customer_id}}>
+                    <td>{{this.customer_id}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.email}}</td>
+                    <td><button onClick="deleteCustomer({{this.customer_id}})">Delete</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </fieldset>
 </div>
 
 <script src="./js/delete_customer.js"></script>
 
-<br />
+<br>
 
 <div id="insertCustomer">
-  <form method="POST" id="add-customer-form-ajax">
-    <fieldset class="fields">
-      <legend><strong>Add Customer</strong></legend>
-      <label> Full Name </label>
-      <input type="text" name="fullname" id="fullname" />
-      <label> Email</label>
-      <input type="text" name="email" id="email" />
-      <input type="submit" />
-    </fieldset>
-  </form>
+    <form method="POST" id="add-customer-form-ajax">
+        <fieldset class="fields">
+            <legend><strong>Add Customer</strong></legend>
+            <label> Full Name </label> <input type="text" name="fullname" id="fullname">
+            <label> Email</label> <input type="text" name="email" id="email">
+            <input class="buttons" type="submit">
+        </fieldset>
+    </form>
 </div>
 
 <script src="./js/add_customer.js"></script>
 
-<br />
+<br>
 <div id="updateCustomerDiv">
-  <fieldset>
-    <legend><strong>Update A Customer's Information</strong></legend>
-    <form id="put-customer-form-ajax">
-      <label for="update-customerID">Choose a Customer: </label>
-      <select name="update-customerID" id="update-customerID">
-        <option value="">Select a Customer</option>
-        {{#each data}}
-          <option value="{{this.customer_id}}">{{this.name}}</option>
-        {{/each}}
-      </select>
-      <label for="updateCustName">Customer Name: </label>
-      <input type="text" name="updateCustName" id="updateCustName" />
-      <label for="updateCustEmail">Email Address: </label>
-      <input type="text" name="updateCustEmail" id="updateCustEmail" />
+    <fieldset>
+        <legend><strong>Update A Customer's Information</strong></legend>
+        <form id="update-customer-form-ajax">
+            <label for="update-customerID">Choose a Customer: </label>
+            <select name="update-customerID" id="update-customerID">
+                <option value="">Select a Customer</option>
+                {{#each data}}
+                <option value="{{this.customer_id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            <label for="updateCustName">Customer Name: </label>
+            <input type="text" name="updateCustName" id="updateCustName">
+            <label for="updateCustEmail">Email Address: </label>
+            <input type="text" name="updateCustEmail" id="updateCustEmail">
 
-      <input type="submit" />
-    </form>
-  </fieldset>
+            <input class="buttons" type="submit">
+        </form>
+    </fieldset>
 </div>
 
 <script src="./js/update_customer.js"></script>

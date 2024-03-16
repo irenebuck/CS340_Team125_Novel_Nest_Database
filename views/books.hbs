@@ -8,7 +8,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <div id="searchBookDiv">
     <fieldset>
-        <legend>Book Inventory</legend>
+        <legend><strong>Inventory</strong></legend>
         <table id="books-table">
             <thead>
                 <tr>
@@ -42,12 +42,12 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <br />
 <div id="searchBookDiv">
     <fieldset>
-        <legend>Search For A Book </legend>
+        <legend><strong>Search For A Book</strong></legend>
         <p>Search for a book title using the field below. Partial information works, too!</p>
         <form id="search-book-html" method="GET" action="/books">
             <label for="search">Search by Title: </label>
             <input type="text" name="search" id="search" />
-            <input type="submit" />
+            <input class="buttons" type="submit" />
             <a href="/books"><button>Reset</button></a>
         </form>
     </fieldset>
@@ -56,7 +56,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <div id="addBookDiv">
     <fieldset>
-        <legend>Add Book</legend>
+        <legend><strong>Add Book</strong></legend>
         <p>Please enter all fields</p>
         <form id="add-book-form-ajax">
             <label for="input-location">Location: </label>
@@ -79,7 +79,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
             <label for="input-price">Price: </label>
             <input type="number" min=0 name="input-price" id="input-price">
 
-            <input type="submit">
+            <input class="buttons" type="submit">
         </form>
     </fieldset>
 </div>
@@ -88,7 +88,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 <br>
 <div id="updateBookDiv">
     <fieldset>
-        <legend>Update A Book</legend>
+        <legend><strong>Update A Book</strong></legend>
         <p>Please enter all fields</p>
         <form id="update-book-form-ajax">
             <label for="update-bookID">Book: </label>
@@ -111,7 +111,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
             <label for="newPrice">Price: $</label>
             <input type="number" min=0 name="newPrice" id="newPrice">
 
-            <input type="submit">
+            <input class="buttons" type="submit">
         </form>
     </fieldset>
 </div>

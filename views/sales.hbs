@@ -1,68 +1,72 @@
-{{! // Citation for the following webpage:
+{{!-- // Citation for the following webpage:
 // Date: 3/1/2024
 // The following source was used to write the following code
 // Code source:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data }}
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<br />
-<script
-  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-></script>
 
-<table id="sales-table">
-  <thead>
-    <tr>
-      <th>Sale ID</th>
-      <th>Location</th>
-      <th>Customer</th>
-      <th>Subtotal</th>
-      <th>Tax</th>
-      <th>Date Purchased</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each data}}
-      <tr data-value={{this.sale_id}}>
-        <td>{{this.sale_id}}</td>
-        <td>{{this.location}}</td>
-        <td>{{this.sale_customer}}</td>
-        <td>{{this.sales_no_tax}}</td>
-        <td>{{this.tax_collected}}</td>
-        <td>{{this.purchase_date}}</td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/add_sale.js"></script>
 
-<p>&nbsp;</p>
-
-<div id="addSaleDiv">
-  <fieldset>
-    <legend><strong>Add A Sale</strong></legend>
-    <form id="add-sale-form-ajax">
-      <label for="input-location">Location: </label>
-      <select name="input-location" id="input-location">
-        <option value="">Select a Location</option>
-        {{#each stores}}
-          <option value="{{this.store_id}}">{{this.store_name}}</option>
-        {{/each}}
-      </select>
-
-      <label for="input-customer">Customer: </label>
-      <input type="number" name="input-customer" id="input-customer" />
-
-      <label for="input-subtotal">Subtotal: </label>
-      <input type="number" name="input-subtotal" id="input-subtotal" />
-
-      <label for="input-tax">Tax: </label>
-      <input type="number" name="input-tax" id="input-tax" />
-
-      <label for="input-date">Date: </label>
-      <input type="date" name="input-date" id="input-date" />
-
-      <input type="submit" />
-    </form>
-  </fieldset>
+<div id="sales-table-dev">
+    <fieldset>
+        <legend><strong>Sales</strong></legend>
+        <table id="sales-table">
+            <thead>
+                <tr>
+                    <th>Sale ID</th>
+                    <th>Location</th>
+                    <th>Customer</th>
+                    <th>Subtotal</th>
+                    <th>Tax</th>
+                    <th>Date Purchased</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value={{this.sale_id}}>
+                    <td>{{this.sale_id}}</td>
+                    <td>{{this.location}}</td>
+                    <td>{{this.sale_customer}}</td>
+                    <td>${{this.sales_no_tax}}</td>
+                    <td>${{this.tax_collected}}</td>
+                    <td>{{this.purchase_date}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </fieldset>
 </div>
 
-<script src="./js/add_sale.js"></script>
+<br>
+
+<div id="addSaleDiv">
+    <fieldset>
+        <legend><strong>Add A Sale</strong></legend>
+        <form id="add-sale-form">
+            <label for="input-location">Location: </label>
+            <select name="input-location" id="input-location">
+                <option value="">Select a Location</option>
+                {{#each stores}} {{!-- stores is from the app.js page, query 2 stores:stores --}}
+                <option value="{{this.store_id}}">{{this.store_name}}</option>
+                {{/each}}
+            </select>
+
+            <label for="input-customer">Customer: </label>
+            <input type="number" name="input-customer" id="input-customer">
+
+            <label for="input-subtotal">Subtotal: </label>
+            <input type="number" name="input-subtotal" id="input-subtotal">
+
+            <label for="input-tax">Tax: </label>
+            <input type="number" name="input-tax" id="input-tax">
+
+            <label for="input-date">Date: </label>
+            <input type="date" name="input-date" id="input-date">
+
+            <input class="buttons" type="submit">
+        </form>
+    </fieldset>
+</div>
+

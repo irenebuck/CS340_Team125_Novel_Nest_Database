@@ -55,6 +55,7 @@ addStoreForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+    location.reload();
 })
 
 // Creates a single row from an Object representing a single record from 

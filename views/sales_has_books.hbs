@@ -5,9 +5,8 @@
 https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
 <br>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<div id="saleBooksDiv">
+<div>
     <fieldset>
         <legend><strong>Books Sold</strong></legend>
         <table id="sale_books_table">
@@ -15,13 +14,13 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
                 <tr>
                     <th>Book Sale ID</th>
                     <th>Sale ID</th>
-                    <th>Book ID</th>
+                    <th>Book</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each data}}
-                <tr data-value={{this.sale_has_books_id}}>
-                    <td>{{this.sale_has_books_id}}</td>
+                <tr data-value={{this.sales_has_books_id}}>
+                    <td>{{this.sales_has_books_id}}</td>
                     <td>{{this.sale}}</td>
                     <td>{{this.book}}</td>
                 </tr>
@@ -33,23 +32,27 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <br>
 
-<div id="addBookSaleDiv">
+<div>
     <form method="POST" id="addBookSale">
         <fieldset class="fields">
             <legend><strong>Add Book Sale</strong></legend>
-            <label> Sale ID/ Transaction Number </label> 
-            <input type="number" name="sale_id">
-            <label> Book ID </label> <select type="text" name="book_id">
-                <option value="0">&nbsp;</option>
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
+            <label> Sale ID</label> 
+            <select name="bookSale-saleinput" id="bookSale-saleinput">
+                <option>Select a Sale ID</option>
+                {{#each sales}}
+                <option>{{this.sale_id}}</option>
+                {{/each}}
             </select>
-            <input class="btn" type="submit" id="addSaleBookbtn" value="Add">
-            <input class="btn" type="button" value="Cancel" onClick="showSalesWithBooks()">
+
+            <label> Book </label>
+            <select name="bookSale-bookinput" id="bookSale-bookinput">
+                <option>Select a Book</option>
+                {{#each books}}
+                <option value="{{this.book_id}}">{{this.title}}</option>
+                {{/each}}
+            </select>
+
+            <input class="btn" type="submit" value="Add">
         </fieldset>
     </form>
 </div>

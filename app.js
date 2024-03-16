@@ -31,17 +31,7 @@ app.get('/', function (req, res) {
 // renders the Books page
 app.get("/books", function (req, res) {
 
-    let query1;
-
-    if (req.query.search === undefined) {
-        query1 = `SELECT * FROM Books`;
-    }
-    // If there is a query string, we assume this is a search, and return desired results
-    else {
-        query1 = `SELECT * FROM Books WHERE title LIKE "${req.query.search}%"`;
-    }
-
-    // Query 2 is the same in both cases
+    let query1 = "SELECT * FROM Books;";
     let query2 = "SELECT * FROM Stores;";
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -88,12 +78,26 @@ app.get('/customers', function (req, res) {
 
 // renders the Sales page
 app.get("/sales", function (req, res) {
-    let query1 = `SELECT * FROM Sales;`;
+
+    let query1 = "SELECT * FROM Sales;";
     let query2 = "SELECT * FROM Stores;";
+
     db.pool.query(query1, function (error, rows, fields) {
         let sales = rows;
+
         db.pool.query(query2, (error, rows, fields) => {
             let stores = rows;
+
+            let storemap = {}
+            stores.map(store => {
+                let id = parseInt(store.store_id, 10);
+                storemap[id] = store["store_name"]
+            })
+
+            // this overwrite the store_id number with the location name AKA store_name
+            sales = sales.map(sale => {
+                return Object.assign(sale, { location: storemap[sale.location] })
+            })
 
             return res.render("sales", { data: sales, stores: stores });
         });
@@ -102,11 +106,41 @@ app.get("/sales", function (req, res) {
 
 // renders the Sales_has_Books page
 app.get('/sales_has_books', function (req, res) {
-    let query1 = `SELECT * FROM Sales_has_Books;`;
+
+    let query1 = `SELECT sales_has_books_id FROM Sales_has_Books
+    INNER JOIN Sales ON Sales_has_Books.sale = Sales.sale_id
+    INNER JOIN Books ON Sales_has_Books.book = Books.book_id
+    ORDER BY sales_has_books_id;`;
+ 
+    let query2 = "SELECT * FROM Sales;";
+    let query3 = "SELECT * FROM Books;";
+
     db.pool.query(query1, function (error, rows, fields) {
-        res.render('sales_has_books', { data: rows });
-    })
-})
+        let bookSales = rows;
+
+        db.pool.query(query2, (error, rows, fields) => {
+            let sales = rows;
+
+            db.pool.query(query3, (error, rows, fields) => {
+                let books = rows;
+
+                let bookmap = {}
+                books.map(book => {
+                    let id = parseInt(book.book_id, 10);
+                    bookmap[id] = book["title"]
+                })
+
+                // this overwrite the book(Books.book_id) with book title
+                bookSales = bookSales.map(bookSale => {
+                    return Object.assign(bookSale, { book: bookmap[bookSale.title] })
+                })
+
+                return res.render("sales_has_books", { data: bookSales, sales: sales, books:books });
+            });
+        });
+    });
+});
+
 
 
 
@@ -211,11 +245,13 @@ app.post("/add-store-form-ajax", function (req, res) {
 app.post("/add-sale-form-ajax", function (req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
+    let location = parseInt(data.location);
+    let customer = parseInt(data.sale_customer);
+    let subtotal = parseFloat(data.sales_no_tax);
+    let tax = parseFloat(data.tax_collected);
 
     // Create the query and run it on the database
-    // INSERT INTO SALES(location, sale_customer, sales_no_tax, tax_collected, purchase_date)
-    // VALUES(: location, : sale_customer, : sales_no_tax, : tax_collected, : purchase_date);
-    let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', '${data.sale_customer}', '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
+    let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES (${location}, ${customer}, ${subtotal}, ${tax}, '${data.purchase_date}')`;
     db.pool.query(query1, function (error, result) {
         // Check for errors
         if (error) {
@@ -294,6 +330,25 @@ app.delete('/delete-customer-ajax/', function (req, res, next) {
 
     // Run the query
     db.pool.query(deleteCustomer, [customer_id], function (error, rows, fields) {
+
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
+// Delete a sale
+app.delete('/delete-sale-ajax/', function (req, res, next) {
+    let data = req.body;
+    let id = parseInt(data.sale_id);
+    
+    let deleteSale = `DELETE FROM Sales WHERE sale_id = ?`;
+
+    // Run the query
+    db.pool.query(deleteSale, [sale_id], function (error, rows, fields) {
 
         if (error) {
             console.log(error);

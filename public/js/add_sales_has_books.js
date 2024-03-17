@@ -62,7 +62,7 @@ addRowToTable = (data) => {
   // console.log("adding row to table in add_book.js" + data)
 
   // Get a reference to the current table on the pPrice and clear it out.
-  let currentTable = document.getElementById("sales_books_table");
+  let currentTable = document.getElementById("sale_books_table");
   console.log(currentTable);
 
   // // Get the location where we should insert the new row (end of table) - we never use this
@@ -83,7 +83,7 @@ addRowToTable = (data) => {
   // Fill the cells with correct data
   idCell.innerText = newRow.sales_has_books_id;
   SaleCell.innerText = newRow.sale;
-  BookCell.innerText = newRow.book;
+  BookCell.innerText = newRow.title;
 
   // Add the cells to the row
   row.appendChild(idCell);

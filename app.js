@@ -103,10 +103,13 @@ app.get("/sales", function (req, res) {
 
 // renders the Sales_has_Books page
 app.get("/sales_has_books", function (req, res) {
-  let query1 = `SELECT sales_has_books_id FROM Sales_has_Books
-    INNER JOIN Sales ON Sales_has_Books.sale = Sales.sale_id
-    INNER JOIN Books ON Sales_has_Books.book = Books.book_id
-    ORDER BY sales_has_books_id;`;
+  //   let query1 = `SELECT sales_has_books_id FROM Sales_has_Books
+  //     INNER JOIN Sales ON Sales_has_Books.sale = Sales.sale_id
+  //     INNER JOIN Books ON Sales_has_Books.book = Books.book_id
+  //     ORDER BY sales_has_books_id;`;
+  let query1 = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
+    FROM Sales_has_Books
+    INNER JOIN Books ON Sales_has_Books.book = Books.book_id;`;
 
   let query2 = "SELECT * FROM Sales;";
   let query3 = "SELECT * FROM Books;";
@@ -127,9 +130,11 @@ app.get("/sales_has_books", function (req, res) {
         });
 
         // this overwrite the book(Books.book_id) with book title
-        bookSales = bookSales.map((bookSale) => {
-          return Object.assign(bookSale, { book: bookmap[bookSale.title] });
-        });
+        // bookSales = bookSales.map((bookSale) => {
+        //   return Object.assign(bookSale, { book: bookmap[bookSale.title] });
+        // });
+
+        console.log(bookSales);
 
         return res.render("sales_has_books", {
           data: bookSales,
@@ -275,7 +280,9 @@ app.post("/add-sales-has-books-form-ajax", function (req, res) {
       res.sendStatus(400);
     } else {
       // If the insert operation was successful, fetch the updated data
-      let query2 = `SELECT * FROM Sales_has_Books;`;
+      let query2 = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
+        FROM Sales_has_Books
+        INNER JOIN Books ON Sales_has_Books.book = Books.book_id;`;
       db.pool.query(query2, function (error, rows, fields) {
         if (error) {
           console.log(error);

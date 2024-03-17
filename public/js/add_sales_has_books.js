@@ -80,6 +80,12 @@ addRowToTable = (data) => {
   let SaleCell = document.createElement("TD");
   let BookCell = document.createElement("TD");
 
+  deleteCell = document.createElement("button");
+  deleteCell.innerHTML = "Delete";
+  deleteCell.onclick = function () {
+    deleteSalesHasBooks(this.sales_has_books_id);
+  };
+
   // Fill the cells with correct data
   idCell.innerText = newRow.sales_has_books_id;
   SaleCell.innerText = newRow.sale;
@@ -89,6 +95,7 @@ addRowToTable = (data) => {
   row.appendChild(idCell);
   row.appendChild(SaleCell);
   row.appendChild(BookCell);
+  row.appendChild(deleteCell);
 
   // Add a row attribute so the deleteRow function can find a newly added row
   row.setAttribute("data-value", newRow.sales_has_books_id);

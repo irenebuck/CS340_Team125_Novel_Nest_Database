@@ -26,12 +26,17 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
             <td>{{this.sales_has_books_id}}</td>
             <td>{{this.sale}}</td>
             <td>{{this.title}}</td>
+            <td><button
+                onclick="deleteSalesHasBooks({{this.sales_has_books_id}})"
+              >Delete</button></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
   </fieldset>
 </div>
+
+<script src="./js/delete_sales_has_books.js"></script>
 
 <br />
 

@@ -332,22 +332,43 @@ app.delete("/delete-customer-ajax/", function (req, res, next) {
   });
 });
 
-// Delete a sale
-app.delete("/delete-sale-ajax/", function (req, res, next) {
-  let data = req.body;
-  let id = parseInt(data.sale_id);
+// // Delete a sale
+// app.delete("/delete-sale-ajax/", function (req, res, next) {
+//   let data = req.body;
+//   let id = parseInt(data.sale_id);
 
-  let deleteSale = `DELETE FROM Sales WHERE sale_id = ?`;
+//   let deleteSale = `DELETE FROM Sales WHERE sale_id = ?`;
+
+//   // Run the query
+//   db.pool.query(deleteSale, [id], function (error, rows, fields) {
+//     if (error) {
+//       console.log(error);
+//       res.sendStatus(400);
+//     } else {
+//       res.sendStatus(204);
+//     }
+//   });
+// });
+
+// Delete sales has books
+app.delete("/delete-sales-has-books-ajax/", function (req, res, next) {
+  let data = req.body;
+  let sales_has_books_id = parseInt(data.sales_has_books_id);
+  let deleteBook = `DELETE FROM Sales_has_Books WHERE sales_has_books_id = ?`;
 
   // Run the query
-  db.pool.query(deleteSale, [id], function (error, rows, fields) {
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.sendStatus(204);
+  db.pool.query(
+    deleteBook,
+    [sales_has_books_id],
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(400);
+      } else {
+        res.sendStatus(204);
+      }
     }
-  });
+  );
 });
 
 // Delete a store

@@ -73,13 +73,13 @@ updateBook.addEventListener("submit", function (e) {
 })
 
 
-function updateRow(data, book) {
+function updateRow(data) {
     let parseData = JSON.parse(data);
 
     var table = document.getElementById("books-table");
 
     for (var i = 0, row; row = table.rows[i]; i++) {
-        if (row.getAttribute("data-value") == book) {
+        if (row.getAttribute("data-value") == parseData[0].book_id) {
             var updatedTitle = parseData[0].title;
             var updatedAuthor = parseData[0].author;
             var updatedGenre = parseData[0].genre;
@@ -87,7 +87,6 @@ function updateRow(data, book) {
 
             //update a cell here
             let updateRowIndex = table.getElementsByTagName("tr")[i];
-
             let td_title = updateRowIndex.getElementsByTagName("td")[2];
             let td_author = updateRowIndex.getElementsByTagName("td")[3];
             let td_genre = updateRowIndex.getElementsByTagName("td")[4];

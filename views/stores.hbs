@@ -4,68 +4,66 @@
 // Code source:
 https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
+<br>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+<fieldset>
+    <legend><strong>Stores</strong></legend>
+    <table id="stores-table">
+        <thead>
+            <tr>
+                <th>Store ID</th>
+                <th>Name</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr data-value={{this.store_id}}>
+                <td>{{this.store_id}}</td>
+                <td>{{this.store_name}}</td>
+                <td>{{this.store_address}}</td>
+                <td><button onclick="deleteStore({{this.store_id}})">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</fieldset>
+<script src="./js/delete_store.js"></script>
 
 <br>
-<div>
-    <fieldset>
-        <legend><strong>Stores</strong></legend>
-        <table id="stores-table">
-            <thead>
-                <tr>
-                    <th>Store ID</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.store_id}}>
-                    <td>{{this.store_id}}</td>
-                    <td>{{this.store_name}}</td>
-                    <td>{{this.store_address}}</td>
-                    <td><button onclick="deleteStore({{this.store_id}})">Delete</button></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
-    <script src="./js/delete_store.js"></script>
 
-    <br>
+<fieldset class="fields">
+    <form id="add-store-form-ajax">
+        <legend><strong>Add A Store</strong></legend>
+        <label> Name </label> <input type="text" name="storeName" id="storeName">
+        <label> Store Address</label> <input type="text" name="storeAddress" id="storeAddress">
+        <input class="buttons" type="submit">
+    </form>
+</fieldset>
+<script src="./js/add_store.js"></script>
 
-    <div id="insertStore">
-        <form method="POST" id="add-store-form-ajax">
-            <fieldset class="fields">
-                <legend><strong>Add A Store</strong></legend>
-                <label> Name </label> <input type="text" name="storeName" id="storeName">
-                <label> Store Address</label> <input type="text" name="storeAddress" id="storeAddress">
-                <input class="buttons" type="submit">
-            </fieldset>
-        </form>
-    </div>
-    <script src="./js/add_store.js"></script>
+<br>
 
-    <br>
-    <div id="updateStoreDiv">
-        <fieldset>
-            <legend><strong>Update A Store</strong></legend>
-            <form id="update-store-form-ajax">
-                <label for="update-storeID">Choose a Store: </label>
-                <select name="update-storeID" id="update-storeID">
-                    <option value="">Choose a Store</option>
-                    {{#each data}}
-                    <option value="{{this.store_id}}">{{this.store_name}}</option>
-                    {{/each}}
-                </select>
-                <label for="updateStoreName">Store Name: </label>
-                <input type="text" name="updateStoreName" id="updateStoreName">
-                <label for="updateStoreAddress">Store Address: </label>
-                <input type="text" name="updateStoreAddress" id="updateStoreAddress">
+<fieldset>
+    <legend><strong>Update A Store</strong></legend>
+    <form id="update-store-form-ajax">
+        <label for="update-storeID">Choose a Store: </label>
+        <select name="update-storeID" id="update-storeID">
+            <option value="">Choose a Store</option>
+            {{#each data}}
+            <option value="{{this.store_id}}">{{this.store_name}}</option>
+            {{/each}}
+        </select>
+        <label for="updateStoreName">Store Name: </label>
+        <input type="text" name="updateStoreName" id="updateStoreName">
+        <label for="updateStoreAddress">Store Address: </label>
+        <input type="text" name="updateStoreAddress" id="updateStoreAddress">
 
-                <input class="buttons" type="submit">
-            </form>
-        </fieldset>
-    </div>
+        <input class="buttons" type="submit">
+    </form>
+</fieldset>
+<script src="./js/update_store.js"></script>
 
-    <script src="./js/update_store.js"></script>
-</div>
+

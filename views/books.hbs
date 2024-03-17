@@ -4,102 +4,100 @@
 // Code source:
 https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <br>
 
-<div id="searchBookDiv">
-    <fieldset>
-        <legend><strong>Inventory</strong></legend>
-        <table id="books-table">
-            <thead>
-                <tr>
-                    <th>Book ID</th>
-                    <th>Location</th>
-                    <th>Title</th>
-                    <th>Authors</th>
-                    <th>Genre</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.book_id}}>
-                    <td>{{this.book_id}}</td>
-                    <td>{{this.location}}</td>
-                    <td>{{this.title}}</td>
-                    <td>{{this.author}}</td>
-                    <td>{{this.genre}}</td>
-                    <td>${{this.price}}</td>
-                    <td><button onclick="deleteBook({{this.book_id}})">Delete</button></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
-</div>
+<fieldset>
+    <legend><strong>Inventory</strong></legend>
+    <table id="books-table">
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Location</th>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Genre</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr data-value={{this.book_id}}>
+                <td>{{this.book_id}}</td>
+                <td>{{this.location}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.author}}</td>
+                <td>{{this.genre}}</td>
+                <td>${{this.price}}</td>
+                <td><button onclick="deleteBook({{this.book_id}})">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</fieldset>
+
 <script src="./js/delete_book.js"></script>
 
 <br>
 
-<div id="addBookDiv">
-    <fieldset>
-        <legend><strong>Add Book</strong></legend>
-        <p>Please enter all fields</p>
-        <form id="add-book-form-ajax">
-            <label for="input-location">Location: </label>
-            <select name="input-location" id="input-location">
-                <option value="">Select a Location</option>
-                {{#each stores}}
-                <option value="{{this.store_id}}">{{this.store_name}}</option>
-                {{/each}}
-            </select>
+<fieldset>
+    <legend><strong>Add Book</strong></legend>
+    <p>Please enter all fields</p>
+    <form id="add-book-form-ajax">
+        <label for="input-location">Location: </label>
+        <select name="input-location" id="input-location">
+            <option value="">Select a Location</option>
+            {{#each stores}}
+            <option value="{{this.store_id}}">{{this.store_name}}</option>
+            {{/each}}
+        </select>
 
-            <label for="input-title">Title: </label>
-            <input type="text" name="input-title" id="input-title">
+        <label for="input-title">Title: </label>
+        <input type="text" name="input-title" id="input-title">
 
-            <label for="input-author">Authors: </label>
-            <input type="text" name="input-author" id="input-author">
+        <label for="input-author">Authors: </label>
+        <input type="text" name="input-author" id="input-author">
 
-            <label for="input-genre">Genre: </label>
-            <input type="text" name="input-genre" id="input-genre">
+        <label for="input-genre">Genre: </label>
+        <input type="text" name="input-genre" id="input-genre">
 
-            <label for="input-price">Price: </label>
-            <input type="number" min=0 name="input-price" id="input-price">
+        <label for="input-price">Price: </label>
+        <input type="number" min=0 name="input-price" id="input-price">
 
-            <input class="buttons" type="submit">
-        </form>
-    </fieldset>
-</div>
+        <input class="buttons" type="submit">
+    </form>
+</fieldset>
+
 <script src="./js/add_book.js"></script>
 
 <br>
-<div id="updateBookDiv">
-    <fieldset>
-        <legend><strong>Update A Book</strong></legend>
-        <p>Please enter all fields</p>
-        <form id="update-book-form-ajax">
-            <label for="update-bookID">Book: </label>
-            <select name="update-bookID" id="update-bookID">
-                <option value="">Select a Book</option>
-                {{#each data}}
-                <option value="{{this.book_id}}">{{this.title}}</option>
-                {{/each}}
-            </select>
 
-            <label for="newTitle">Title:</label>
-            <input type="text" name="newTitle" id="newTitle">
+<fieldset>
+    <legend><strong>Update A Book</strong></legend>
+    <p>Please enter all fields</p>
+    <form id="update-book-form-ajax">
+        <label for="update-bookID">Book: </label>
+        <select name="update-bookID" id="update-bookID">
+            <option value="">Select a Book</option>
+            {{#each data}}
+            <option value="{{this.book_id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
 
-            <label for="newAuthor">Author:</label>
-            <input type="text" name="newAuthor" id="newAuthor">
+        <label for="newTitle">Title:</label>
+        <input type="text" name="newTitle" id="newTitle">
 
-            <label for="newGenre">Genre:</label>
-            <input type="text" name="newGenre" id="newGenre">
+        <label for="newAuthor">Author:</label>
+        <input type="text" name="newAuthor" id="newAuthor">
 
-            <label for="newPrice">Price: $</label>
-            <input type="number" min=0 name="newPrice" id="newPrice">
+        <label for="newGenre">Genre:</label>
+        <input type="text" name="newGenre" id="newGenre">
 
-            <input class="buttons" type="submit">
-        </form>
-    </fieldset>
-</div>
+        <label for="newPrice">Price: $</label>
+        <input type="number" min=0 name="newPrice" id="newPrice">
+
+        <input class="buttons" type="submit">
+    </form>
+</fieldset>
 
 <script src="./js/update_book.js"></script>

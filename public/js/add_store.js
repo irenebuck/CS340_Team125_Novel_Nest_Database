@@ -12,6 +12,7 @@ addStoreForm.addEventListener("submit", function (e) {
 
     // Prevent the form from submitting
     e.preventDefault();
+    debugger;
 
     // Get form fields we need to get data from
     let input_name = document.getElementById("storeName");
@@ -20,16 +21,14 @@ addStoreForm.addEventListener("submit", function (e) {
 
     // Get the values from the form fields
     let nameValue = input_name.value;
-    let storeAddressValue = input_store_address.value;
+    let addressValue = input_store_address.value;
 
 
     // Put our data we want to send in a javascript object
     let data = {
         store_name: nameValue,
-        store_address: storeAddressValue
+        store_address: addressValue
     }
-
-    console.log("data: ", data)
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -61,29 +60,22 @@ addStoreForm.addEventListener("submit", function (e) {
 // Creates a single row from an Object representing a single record from 
 addRowToTable = (data) => {
 
-    // Get a reference to the current table on the pPrice and clear it out.
     let currentTable = document.getElementById("stores-table");
-    console.log("cur table: ", currentTable)
-
-    // // Get the location where we should insert the new row (end of table) - we never use this
-    // let newRowIndex = currentTable.rows.length;
 
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    console.log(data, parsedData)
-
-    // Create a row and 4 cells
+    // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let NameCell = document.createElement("TD");
-    let AddressCell = document.createElement("TD");
+    let nameCell = document.createElement("TD");
+    let addressCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.store_id;
-    NameCell.innerText = newRow.store_name;
-    AddressCell.innerText = newRow.store_address;
+    nameCell.innerText = newRow.store_name;
+    addressCell.innerText = newRow.store_address;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
@@ -91,19 +83,11 @@ addRowToTable = (data) => {
         deleteStore(newRow.store_id);
     };
 
-    editCell = document.createElement("button");
-    editCell.innerHTML = "Edit";
-    editCell.onclick = function () {
-        updateStore(newRow.store_id);
-    };
-
-
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(NameCell);
     row.appendChild(AddressCell);
     row.appendChild(deleteCell);
-    // row.appendChild(editCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.store_id);

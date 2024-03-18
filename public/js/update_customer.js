@@ -27,8 +27,6 @@ updateCustomer.addEventListener("submit", function (e) {
         email: EmailValue,
     };
 
-    console.log("data: ", data);
-
     // Setup AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/update-customer-form-ajax", true);
@@ -57,23 +55,19 @@ updateCustomer.addEventListener("submit", function (e) {
 function updateRow(data) {
     let parseData = JSON.parse(data);
 
-    // console.log("info passed to updateRow: ", parseData[0].book_id);
-
     var table = document.getElementById("customers-table");
-    // console.log("table", table);
 
     for (var i = 0, row; (row = table.rows[i]); i++) {
         if (row.getAttribute("data-value") == parseData[0].customer_id) {
             var updatedName = parseData[0].name;
             var updatedEmail = parseData[0].email;
 
-            //update a cell here
-
+            // Find the row and cells where the update is being made
             let updateRowIndex = table.getElementsByTagName("tr")[i];
-
             let td_name = updateRowIndex.getElementsByTagName("td")[1];
             let td_email = updateRowIndex.getElementsByTagName("td")[2];
 
+            // update cells
             td_name.innerHTML = updatedName;
             td_email.innerHTML = updatedEmail;
 

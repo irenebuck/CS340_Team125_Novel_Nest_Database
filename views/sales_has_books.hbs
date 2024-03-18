@@ -6,54 +6,55 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <br>
 
-<div>
-    <fieldset>
-        <legend><strong>Books Sold</strong></legend>
-        <table id="sale_books_table">
-            <thead>
-                <tr>
-                    <th>Book Sale ID</th>
-                    <th>Sale ID</th>
-                    <th>Book</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data}}
-                <tr data-value={{this.sales_has_books_id}}>
-                    <td>{{this.sales_has_books_id}}</td>
-                    <td>{{this.sale}}</td>
-                    <td>{{this.book}}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </fieldset>
-</div>
+
+<fieldset>
+    <legend><strong>Books Sold</strong></legend>
+    <table id="sale_books_table">
+        <thead>
+            <tr>
+                <th>Book Sale ID</th>
+                <th>Sale ID</th>
+                <th>Book</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr data-value={{this.sales_has_books_id}}>
+                <td>{{this.sales_has_books_id}}</td>
+                <td>{{this.sale}}</td>
+                <td>{{this.book}}</td>
+                <td><button onClick="deleteBookSale({{this.customer_id}})">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</fieldset>
+<script scr="./js/delete_sales_has_books.js"></script>
 
 <br>
 
-<div>
-    <form method="POST" id="addBookSale">
-        <fieldset class="fields">
-            <legend><strong>Add Book Sale</strong></legend>
-            <label> Sale ID</label> 
-            <select name="bookSale-saleinput" id="bookSale-saleinput">
-                <option>Select a Sale ID</option>
-                {{#each sales}}
-                <option>{{this.sale_id}}</option>
-                {{/each}}
-            </select>
 
-            <label> Book </label>
-            <select name="bookSale-bookinput" id="bookSale-bookinput">
-                <option>Select a Book</option>
-                {{#each books}}
-                <option value="{{this.book_id}}">{{this.title}}</option>
-                {{/each}}
-            </select>
+<form id="add-sales-has-books-form-ajax">
+    <fieldset class="fields">
+        <legend><strong>Add Book Sale</strong></legend>
+        <label> Sale ID</label> 
+        <select name="input-sale" id="input-sale">
+            <option>Select a Sale ID</option>
+            {{#each sales}}
+            <option>{{this.sale_id}}</option>
+            {{/each}}
+        </select>
 
-            <input class="btn" type="submit" value="Add">
-        </fieldset>
-    </form>
-</div>
+        <label> Book </label>
+        <select name="input-book" id="input-book">
+            <option>Select a Book</option>
+            {{#each books}}
+            <option value="{{this.book_id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
+
+        <input class="btn" type="submit" value="Add">
+    </fieldset>
+</form>
+<script scr="./js/add_sales_has_books.js"></script>
 

@@ -58,7 +58,7 @@ function updateRow(data) {
     var table = document.getElementById("stores-table");
 
     for (var i = 0, row; (row = table.rows[i]); i++) {
-        if (row.getAttribute("data-value") == data) {
+        if (row.getAttribute("data-value") == parseData[0].store_id) {
             var updatedName = parseData[0].store_name;
             var updatedAddress = parseData[0].store_address;
 

@@ -29,8 +29,8 @@ CREATE OR REPLACE TABLE Books (
 -- create customers table
 CREATE OR REPLACE TABLE Customers (
     customer_id INT NOT NULL AUTO_INCREMENT, -- pk
-    name VARCHAR(255),
-    email VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     PRIMARY KEY (customer_id)
 );
 

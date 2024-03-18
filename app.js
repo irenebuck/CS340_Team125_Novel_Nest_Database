@@ -108,11 +108,7 @@ app.get("/sales", function (req, res) {
 // renders the Sales_has_Books page
 app.get('/sales_has_books', function (req, res) {
 
-    let query1 = `SELECT sales_has_books_id FROM Sales_has_Books
-    INNER JOIN Sales ON Sales_has_Books.sale = Sales.sale_id
-    INNER JOIN Books ON Sales_has_Books.book = Books.book_id
-    ORDER BY sales_has_books_id;`;
- 
+    let query1 = "SELECT * FROM Sales_has_Books;";
     let query2 = "SELECT * FROM Sales;";
     let query3 = "SELECT * FROM Books;";
 
@@ -124,17 +120,6 @@ app.get('/sales_has_books', function (req, res) {
 
             db.pool.query(query3, (error, rows, fields) => {
                 let books = rows;
-
-                let bookmap = {}
-                books.map(book => {
-                    let id = parseInt(book.book_id, 10);
-                    bookmap[id] = book["title"]
-                })
-
-                // this overwrite the book(Books.book_id) with book title
-                bookSales = bookSales.map(bookSale => {
-                    return Object.assign(bookSale, { book: bookmap[bookSale.title] })
-                })
 
                 return res.render("sales_has_books", { data: bookSales, sales: sales, books:books });
             });
@@ -232,37 +217,46 @@ app.post("/add-store-form-ajax", function (req, res) {
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    // Send the fetched data as the response
-                    res.send(rows);
+
+                    let query3 = `SELECT * FROM Customers;`;
+                    db.pool.query(query3, function (error, rows, fields) {
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            // Send the fetched data as the response
+                            res.send(rows);
+                        }
+                    })
                 }
-            });
+            })
         }
     });
 });
 
 
 // add sale
-app.post("/add-sale-form-ajax", function (req, res) {
+app.post('/add-sale-form-ajax', function (req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
-    let location = parseInt(data.location);
-    let customer = parseInt(data.sale_customer);
-    let subtotal = parseFloat(data.sales_no_tax);
-    let tax = parseFloat(data.tax_collected);
+
+    // Capture NULL values
+    let parsedCustomer = parseInt(data.sale_customer);    
+    if (isNaN(parsedCustomer)) {
+        parsedCustomer = "NULL";
+    }
 
     // Create the query and run it on the database
-    let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES (${location}, ${customer}, ${subtotal}, ${tax}, '${data.purchase_date}')`;
+    let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', ${parsedCustomer}, '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
     db.pool.query(query1, function (error, result) {
         // Check for errors
         if (error) {
-            console.log("1 : ", error);
             res.sendStatus(400);
         } else {
             // If the insert operation was successful, fetch the updated data
             let query2 = `SELECT * FROM Sales;`;
             db.pool.query(query2, function (error, rows, fields) {
                 if (error) {
-                    console.log("2 : ", error);
                     res.sendStatus(400);
                 } else {
                     // Send the fetched data as the response
@@ -277,7 +271,6 @@ app.post("/add-sale-form-ajax", function (req, res) {
 app.post("/add-sales-has-books-form-ajax", function (req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
-
     // Create the query and run it on the database
     let query1 = `INSERT INTO Sales_has_Books (sale, book) VALUES ('${data.sale}', '${data.book}')`;
     db.pool.query(query1, function (error, result) {
@@ -287,7 +280,9 @@ app.post("/add-sales-has-books-form-ajax", function (req, res) {
             res.sendStatus(400);
         } else {
             // If the insert operation was successful, fetch the updated data
-            let query2 = `SELECT * FROM Sales_has_Books;`;
+            let query2 = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
+        FROM Sales_has_Books
+        INNER JOIN Books ON Sales_has_Books.book = Books.book_id;`;
             db.pool.query(query2, function (error, rows, fields) {
                 if (error) {
                     console.log(error);
@@ -326,7 +321,7 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
 app.delete('/delete-customer-ajax/', function (req, res, next) {
     let data = req.body;
     let customer_id = parseInt(data.customer_id);
-    
+
     let deleteCustomer = `DELETE FROM Customers WHERE customer_id = ?`;  
 
     // Run the query
@@ -358,6 +353,26 @@ app.delete('/delete-sale-ajax/', function (req, res, next) {
             res.sendStatus(204);
         }
     })
+});
+
+// Delete sales has books
+app.delete("/delete-sales-has-books-ajax/", function (req, res, next) {
+    let data = req.body;
+    let sales_has_books_id = parseInt(data.sales_has_books_id);
+    let deleteBook = `DELETE FROM Sales_has_Books WHERE sales_has_books_id = ?`;
+    
+    db.pool.query(
+        deleteBook,
+        [sales_has_books_id],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(204);
+            }
+        }
+    )
 });
 
 
@@ -393,25 +408,26 @@ app.put("/update-book-form-ajax", function (req, res, next) {
     let genre = data.genre;
     let price = parseInt(data.price);
 
-    queryUpdateBook = `UPDATE Books SET price = ? WHERE book_id = ?`;
+    queryUpdateBook = `UPDATE Books SET title = ?, author = ?, genre = ?, price = ? WHERE book_id = ?`;
     selectBook = `SELECT * FROM Books WHERE book_id = ?`;
 
     // 1st query
     db.pool.query(
         queryUpdateBook,
-        [bookID, title, author, genre, price],
+        [title, author, genre, price, bookID],
         function (error, rows, fields) {
             if (error) {
                 console.log(error);
                 res.sendStatus(400);
             } else {
+                // console.log("second query");
                 // 2nd query
                 db.pool.query(selectBook, [bookID], function (error, rows, fields) {
                     if (error) {
                         console.log(error);
                         res.sendStatus(400);
                     } else {
-                        // console.log(price, bookID, rows);
+                        // console.log("we good");
                         res.send(rows);
                     }
                 });
@@ -422,16 +438,10 @@ app.put("/update-book-form-ajax", function (req, res, next) {
 
 //update customer
 app.put("/update-customer-form-ajax", function (req, res, next) {
-    console.log("putting customer - app.js");
     let data = req.body;
-
-    // console.log(data);
-
     let name = data.name;
     let email = data.email;
     let customer_id = parseInt(data.customer_id);
-
-    // console.log(name, email, customer_id);
 
     queryUpdateCustomer = `UPDATE Customers SET name = ?, email = ? WHERE customer_id = ?`;
     selectCustomer = `SELECT * FROM Customers WHERE customer_id = ?`;
@@ -467,15 +477,15 @@ app.put("/update-customer-form-ajax", function (req, res, next) {
 //update store
 app.put("/update-store-form-ajax", function (req, res, next) {
     let data = req.body;
-    let id = parseInt(data.store_id);
     let name = data.store_name;
     let address = data.store_address;
+    let id = parseInt(data.store_id);
 
     queryUpdateStore = `UPDATE Stores SET store_name = ?, store_address = ? WHERE store_id = ?`;
     selectStores = `SELECT * FROM Stores WHERE store_id = ?`;
 
     // 1st query
-    db.pool.query(queryUpdateStore, [id, name, address], function (error, rows, fields) {
+    db.pool.query(queryUpdateStore, [name, address, id], function (error, rows, fields) {
         if (error) {
             console.log(error);
             res.sendStatus(400);

@@ -5,104 +5,91 @@ Date: 3 / 18 / 2024
 Sample code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 Sample code authors/GitHub users: gkochera - George Kochera, Dr.Curry - currym - osu, Cortona1, and dmgs11 --}}
 
-<script
-  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-></script>
-<br />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<br/>
 
-<div>
-  <fieldset>
+<fieldset>
     <legend><strong>Books In A Sale</strong></legend>
     <table id="sale_books_table">
-      <thead>
-        <tr>
-          <th>Books In A Sale ID</th>
-          <th>Sale ID</th>
-          <th>Book</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each data}}
-          <tr data-value={{this.sales_has_books_id}}>
-            <td>{{this.sales_has_books_id}}</td>
-            <td>{{this.sale}}</td>
-            <td>{{this.title}}</td>
-            <td><button
-                onclick="deleteSalesHasBooks({{this.sales_has_books_id}})"
-              >Delete</button></td>
-          </tr>
-        {{/each}}
-      </tbody>
+        <thead>
+            <tr>
+                <th>Books In A Sale ID</th>
+                <th>Sale ID</th>
+                <th>Book</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr data-value={{this.sales_has_books_id}}>
+                <td>{{this.sales_has_books_id}}</td>
+                <td>{{this.sale}}</td>
+                <td>{{this.title}}</td>
+                <td><button onclick="deleteSalesHasBooks({{this.sales_has_books_id}})">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
     </table>
-  </fieldset>
-</div>
+</fieldset>
+<script scr="./js/delete_sales_has_books.js"></script>
 
-<script src="./js/delete_sales_has_books.js"></script>
+<br>
 
-<br />
+<fieldset class="fields">
+    <legend><strong>Add A Book To A Sale</strong></legend>
+    <p>Attach a book to a sale. Please enter all fields.</p>
+    <form id="add-sales-has-books-form-ajax"></form>
+        <label> Sale ID</label> 
+        <select name="input-sale" id="input-sale">
+            <option>Select a Sale ID</option>
+            {{#each sales}}
+            <option>{{this.sale_id}}</option>
+            {{/each}}
+        </select>
 
-<div id="addSalesBooksDiv">
-  <fieldset>
-    <legend><strong>Add Books in a Sale</strong></legend>
-    <p>Please enter all fields</p>
-    <form id="add-sales-has-books-form-ajax">
+        <label> Book </label>
+        <select name="input-book" id="input-book">
+            <option>Select a Book</option>
+            {{#each books}}
+            <option value="{{this.book_id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
 
-      <label for="input-sale">Sale: </label>
-      <select name="input-sale" id="input-sale">
-        <option>Select a Sale ID</option>
-        {{#each sales}}
-          <option>{{this.sale_id}}</option>
-        {{/each}}
-      </select>
-
-      <label for="input-book">Book: </label>
-      <select name="input-book" id="input-book">
-        <option>Select a Book</option>
-        {{#each books}}
-          <option value="{{this.book_id}}">{{this.title}}</option>
-        {{/each}}
-      </select>
-
-      <input type="submit" />
+        <input class="btn" type="submit" value="Add">
     </form>
-  </fieldset>
-</div>
-<script src="./js/add_sales_has_books.js"></script>
+</fieldset>
+<script scr="./js/add_sales_has_books.js"></script>
 
 <br />
 
 <fieldset>
-  <legend><strong>Update Books in a Sale</strong></legend>
-  <p>Please enter all fields</p>
-  <form id="update-sales-has-books-form-ajax">
-    <label for="update-books-saleID">Books In A Sale ID: </label>
-    <select name="update-books-saleID" id="update-books-saleID">
-      <option value="">Select an ID</option>
-      {{#each data}}
-        <option
-          value="{{this.sales_has_books_id}}"
-        >{{this.sales_has_books_id}}</option>
-      {{/each}}
-    </select>
+    <legend><strong>Update A Book in a Sale</strong></legend>
+    <p>Please enter all fields</p>
+    <form id="update-sales-has-books-form-ajax">
+        <label for="update-books-saleID">Books In A Sale ID: </label>
+        <select name="update-books-saleID" id="update-books-saleID">
+            <option value="">Select an ID</option>
+            {{#each data}}
+            <option value="{{this.sales_has_books_id}}">{{this.sales_has_books_id}}</option>
+            {{/each}}
+        </select>
 
-    <label for="newSale">Sale ID:</label>
-    <select name="newSale" id="newSale">
-      <option>Select a Sale ID</option>
-      {{#each sales}}
-        <option>{{this.sale_id}}</option>
-      {{/each}}
-    </select>
+        <label for="newSale">Sale ID:</label>
+        <select name="newSale" id="newSale">
+            <option>Select a Sale ID</option>
+            {{#each sales}}
+            <option>{{this.sale_id}}</option>
+            {{/each}}
+        </select>
 
-    <label for="newBook">Book:</label>
-    <select name="newBook" id="newBook">
-      <option>Select a Book</option>
-      {{#each books}}
-        <option value="{{this.book_id}}">{{this.title}}</option>
-      {{/each}}
-    </select>
+        <label for="newBook">Book:</label>
+        <select name="newBook" id="newBook">
+            <option>Select a Book</option>
+            {{#each books}}
+            <option value="{{this.book_id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
 
-    <input class="buttons" type="submit" />
-  </form>
+        <input class="buttons" type="submit" />
+    </form>
 </fieldset>
-
 <script src="./js/update_sales_has_books.js"></script>

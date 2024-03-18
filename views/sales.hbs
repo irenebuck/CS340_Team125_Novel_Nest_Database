@@ -5,89 +5,65 @@ Date: 3 / 18 / 2024
 Sample code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 Sample code authors/GitHub users: gkochera - George Kochera, Dr.Curry - currym - osu, Cortona1, and dmgs11 --}}
 
-<script
-  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-></script>
-<br />
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<br>
 
 <fieldset>
-  <legend><strong>Sales</strong></legend>
-  <table id="sales-table">
-    <thead>
-      <tr>
-        <th>Sale ID</th>
-        <th>Location</th>
-        <th>Customer</th>
-        <th>Subtotal</th>
-        <th>Tax</th>
-        <th>Date Purchased</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each data}}
-        <tr data-value={{this.sale_id}}>
-          <td>{{this.sale_id}}</td>
-          <td>{{this.location}}</td>
-          <td>{{this.sale_customer}}</td>
-          <td>${{this.sales_no_tax}}</td>
-          <td>${{this.tax_collected}}</td>
-          <td>{{this.purchase_date}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+    <legend><strong>Sales</strong></legend>
+    <table id="sales-table">
+        <thead>
+            <tr>
+                <th>Sale ID</th>
+                <th>Location</th>
+                <th>Customer</th>
+                <th>Subtotal</th>
+                <th>Tax</th>
+                <th>Date Purchased</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr data-value={{this.sale_id}}>
+                <td>{{this.sale_id}}</td>
+                <td>{{this.location}}</td>
+                <td>{{this.sale_customer}}</td>
+                <td>${{this.sales_no_tax}}</td>
+                <td>${{this.tax_collected}}</td>
+                <td>{{this.purchase_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </fieldset>
 
-<br />
+<br>
 
 <fieldset>
-  <legend><strong>Add A Sale</strong></legend>
-  <form id="add-sale-form-ajax">
-    <label for="input-location">Location: </label>
-    <select name="input-location" id="input-location">
-      <option value="">Select a Location</option>
-      {{#each stores}}
-        {{! stores is from the app.js page, query 2 stores:stores }}
-        <option value="{{this.store_id}}">{{this.store_name}}</option>
-      {{/each}}
-    </select>
+    <legend><strong>Add A Sale</strong></legend>
+    <form id="add-sale-form-ajax">
+        <label for="input-location">Location: </label>
+        <select name="input-location" id="input-location">
+            <option value="">Select a Location</option>
+            {{#each stores}} {{!-- stores is from the app.js page, query 2 stores:stores --}}
+            <option value="{{this.store_id}}">{{this.store_name}}</option>
+            {{/each}}
+        </select>
 
-    <label for="input-customer">Customer Number: </label>
-    <select name="input-customer" id="input-customer">
-      <option value="">Select a Customer</option>
-      {{#each customers}}
-        <option value="{{this.customer_id}}">{{this.name}}</option>
-      {{/each}}
-    </select>
+        <label for="input-customer">Existing Customer: </label>
+        <input type="number" min="1" name="input-customer" id="input-customer" required>
 
-    <label for="input-subtotal">Subtotal: </label>
-    <input
-      type="number"
-      min="0"
-      step=".01"
-      name="input-subtotal"
-      id="input-subtotal"
-      required
-    />
+        <label for="input-subtotal">Subtotal: </label>
+        <input type="number" min=0 step=".01" name="input-subtotal" id="input-subtotal" required>
 
-    <label for="input-tax">Tax: </label>
-    <input
-      type="number"
-      min="0"
-      step=".01"
-      name="input-tax"
-      id="input-tax"
-      required
-    />
+        <label for="input-tax">Tax: </label>
+        <input type="number" min=0 step=".01" name="input-tax" id="input-tax" required>
 
-    <label for="input-date">Date: </label>
-    <input type="date" name="input-date" id="input-date" required />
+        <label for="input-date">Date: </label>
+        <input type="date" name="input-date" id="input-date" required>
 
-    <label for="input-time">Time: </label>
-    <input type="time" name="input-time" id="input-time" required />
-
-    <input class="buttons" type="submit" />
-  </form>
+        <input class="buttons" type="submit">
+    </form>
 </fieldset>
 
 <script src="./js/add_sale.js"></script>

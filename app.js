@@ -100,6 +100,8 @@ app.get("/sales", function (req, res) {
       db.pool.query(query3, function (error, rows, fields) {
         let customers = rows;
 
+        console.log("sales: ", sales);
+
         return res.render("sales", {
           data: sales,
           stores: stores,

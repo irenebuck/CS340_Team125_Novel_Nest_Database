@@ -17,6 +17,10 @@ addSaleForm.addEventListener("submit", function (e) {
   let inputSubtotal = document.getElementById("input-subtotal");
   let inputTax = document.getElementById("input-tax");
   let inputDate = document.getElementById("input-date");
+  let inputTime = document.getElementById("input-time");
+
+  //get datetime
+  let dateTimeValue = inputDate.value + " " + inputTime.value;
 
   // Get the values from the form fields
   let LocationValue = inputLocation.value;
@@ -31,7 +35,7 @@ addSaleForm.addEventListener("submit", function (e) {
     sale_customer: CustomerValue,
     sales_no_tax: SubtotalValue,
     tax_collected: TaxValue,
-    purchase_date: DateValue,
+    purchase_date: dateTimeValue,
   };
 
   // Setup our AJAX request
@@ -51,6 +55,7 @@ addSaleForm.addEventListener("submit", function (e) {
       inputSubtotal.value = "";
       inputTax.value = "";
       inputDate.value = "";
+      inputTime.value = "";
     } else if (xhttp.readyState == 4 && xhttp.status != 200) {
       console.log(
         "There was an error with the input. status: ",
@@ -88,9 +93,11 @@ addRowToTable = (data) => {
   idCell.innerText = newRow.sale_id;
   LocationCell.innerText = newRow.location;
   CustomerCell.innerText = newRow.sale_customer;
-  SubtotalCell.innerText = newRow.sales_no_tax;
-  TaxCell.innerText = newRow.tax_collected;
-  DateCell.innerText = newRow.purchase_date;
+  SubtotalCell.innerText = "$" + newRow.sales_no_tax;
+  TaxCell.innerText = "$" + newRow.tax_collected;
+  // Format the date
+  let formattedDate = new Date(newRow.purchase_date).toLocaleString();
+  DateCell.innerText = formattedDate;
 
   // Add the cells to the row
   row.appendChild(idCell);

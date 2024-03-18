@@ -76,7 +76,8 @@ app.get("/customers", function (req, res) {
 
 // renders the Sales page
 app.get("/sales", function (req, res) {
-  let query1 = "SELECT * FROM Sales;";
+  let query1 =
+    "SELECT Sales.sale_id, Stores.store_name AS location, Customers.name AS sale_customer, Sales.sales_no_tax, Sales.tax_collected, Sales.purchase_date FROM Sales INNER JOIN Stores ON Sales.location = Stores.store_id INNER JOIN Customers ON Sales.sale_customer = Customers.customer_id ORDER BY Sales.sale_id ASC;";
   let query2 = "SELECT * FROM Stores;";
   let query3 = "SELECT * FROM Customers";
 
@@ -86,21 +87,8 @@ app.get("/sales", function (req, res) {
     db.pool.query(query2, (error, rows, fields) => {
       let stores = rows;
 
-      let storemap = {};
-      stores.map((store) => {
-        let id = parseInt(store.store_id, 10);
-        storemap[id] = store["store_name"];
-      });
-
-      // this overwrite the store_id number with the location name AKA store_name
-      sales = sales.map((sale) => {
-        return Object.assign(sale, { location: storemap[sale.location] });
-      });
-
       db.pool.query(query3, function (error, rows, fields) {
         let customers = rows;
-
-        console.log("sales: ", sales);
 
         return res.render("sales", {
           data: sales,
@@ -267,7 +255,8 @@ app.post("/add-sale-form-ajax", function (req, res) {
       res.sendStatus(400);
     } else {
       // If the insert operation was successful, fetch the updated data
-      let query2 = `SELECT * FROM Sales;`;
+      let query2 =
+        "SELECT Sales.sale_id, Stores.store_name AS location, Customers.name AS sale_customer, Sales.sales_no_tax, Sales.tax_collected, Sales.purchase_date FROM Sales INNER JOIN Stores ON Sales.location = Stores.store_id INNER JOIN Customers ON Sales.sale_customer = Customers.customer_id ORDER BY Sales.sale_id ASC;";
       db.pool.query(query2, function (error, rows, fields) {
         if (error) {
           res.sendStatus(400);

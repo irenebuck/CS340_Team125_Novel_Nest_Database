@@ -200,7 +200,17 @@ app.post("/add-customer-form-ajax", function (req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      res.send(rows);
+      // If the insert operation was successful, fetch the updated data
+      let query2 = `SELECT * FROM Customers;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          // Send the fetched data as the response
+          res.send(rows);
+        }
+      });
     }
   });
 });

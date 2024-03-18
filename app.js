@@ -503,6 +503,50 @@ app.put("/update-store-form-ajax", function (req, res, next) {
   );
 });
 
+//update sales has books
+app.put("/update-sales-has-books-form-ajax", function (req, res, next) {
+  let data = req.body;
+  let salesHasBooksID = parseInt(data.sales_has_books_id);
+  let sale = parseInt(data.sale);
+  let book = parseInt(data.book);
+
+  console.log(sale, book);
+
+  queryUpdateBook = `UPDATE Sales_has_Books SET sale = ?, book = ? WHERE sales_has_books_id = ?`;
+  selectBook = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
+    FROM Sales_has_Books
+    INNER JOIN Books ON Sales_has_Books.book = Books.book_id
+    WHERE sales_has_books_id = ?;`;
+
+  // 1st query
+  db.pool.query(
+    queryUpdateBook,
+    [sale, book, salesHasBooksID],
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+        res.sendStatus(400);
+      } else {
+        // console.log("second query");
+        // 2nd query
+        db.pool.query(
+          selectBook,
+          [salesHasBooksID],
+          function (error, rows, fields) {
+            if (error) {
+              console.log(error);
+              res.sendStatus(400);
+            } else {
+              // console.log("we good");
+              res.send(rows);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
 /*
    LISTENER
 */

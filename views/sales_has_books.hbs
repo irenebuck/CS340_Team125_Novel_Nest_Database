@@ -11,11 +11,11 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <div>
   <fieldset>
-    <legend><strong>Books Sold</strong></legend>
+    <legend><strong>Books In A Sale</strong></legend>
     <table id="sale_books_table">
       <thead>
         <tr>
-          <th>Book Sale ID</th>
+          <th>Books In A Sale ID</th>
           <th>Sale ID</th>
           <th>Book</th>
         </tr>
@@ -42,7 +42,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <div id="addSalesBooksDiv">
   <fieldset>
-    <legend>Add Sales has Books</legend>
+    <legend><strong>Add Books in a Sale</strong></legend>
     <p>Please enter all fields</p>
     <form id="add-sales-has-books-form-ajax">
 
@@ -67,3 +67,41 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
   </fieldset>
 </div>
 <script src="./js/add_sales_has_books.js"></script>
+
+<br />
+
+<fieldset>
+  <legend><strong>Update Books in a Sale</strong></legend>
+  <p>Please enter all fields</p>
+  <form id="update-sales-has-books-form-ajax">
+    <label for="update-books-saleID">Books In A Sale ID: </label>
+    <select name="update-books-saleID" id="update-books-saleID">
+      <option value="">Select an ID</option>
+      {{#each data}}
+        <option
+          value="{{this.sales_has_books_id}}"
+        >{{this.sales_has_books_id}}</option>
+      {{/each}}
+    </select>
+
+    <label for="newSale">Sale ID:</label>
+    <select name="newSale" id="newSale">
+      <option>Select a Sale ID</option>
+      {{#each sales}}
+        <option>{{this.sale_id}}</option>
+      {{/each}}
+    </select>
+
+    <label for="newBook">Book:</label>
+    <select name="newBook" id="newBook">
+      <option>Select a Book</option>
+      {{#each books}}
+        <option value="{{this.book_id}}">{{this.title}}</option>
+      {{/each}}
+    </select>
+
+    <input class="buttons" type="submit" />
+  </form>
+</fieldset>
+
+<script src="./js/update_sales_has_books.js"></script>

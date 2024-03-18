@@ -1,7 +1,9 @@
-// Citation for the following webpage:
-// Date: 3/1/2024
-// The following source was used to write the following code
-// Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+// Citation for the following webpage and database project:
+
+// A sample code from a similar front and backend CRUD implementation was used to write our project code.
+// Date: 3 / 18 / 2024
+// Sample code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+// Sample code authors / GitHub users: gkochera - George Kochera, Dr.Curry - currym - osu, Cortona1, and dmgs11
 
 
 // Get the objects we need to modify
@@ -60,14 +62,11 @@ addRowToTable = (data) => {
 
     let currentTable = document.getElementById("customers-table");
 
-    // // Get the location where we should insert the new row (end of table) - we never use this
-    // let newRowIndex = currentTable.rows.length;
-
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 4 cells
+    // Create a row and 3 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let nameCell = document.createElement("TD");
@@ -84,17 +83,11 @@ addRowToTable = (data) => {
         deleteCustomer(newRow.customer_id);
     };    
 
-    updateCell = document.createElement("button");
-    updateCell.innerHTML = "Edit";
-    updateCell.onclick = function () {
-        updateCustomer(newRow.customer_id);
-    };
-
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(nameCell);
     row.appendChild(emailCell);
-    row.appendChild(updateCell);
+    row.appendChild(deleteCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
     row.setAttribute('data-value', newRow.customer_id);

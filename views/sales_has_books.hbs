@@ -1,18 +1,19 @@
-{{!-- // Citation for the following webpage:
-// Date: 3/1/2024
-// The following source was used to write the following code
-// Code source:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
+{{!-- Citation for the following webpage and database project:
+
+A sample code from a similar front and backend CRUD implementation was used to write our project code.
+Date: 3 / 18 / 2024
+Sample code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+Sample code authors/GitHub users: gkochera - George Kochera, Dr.Curry - currym - osu, Cortona1, and dmgs11 --}}
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <br/>
 
 <fieldset>
-    <legend><strong>Books Sold</strong></legend>
+    <legend><strong>Books In A Sale</strong></legend>
     <table id="sale_books_table">
         <thead>
             <tr>
-                <th>Book Sale ID</th>
+                <th>Books In A Sale ID</th>
                 <th>Sale ID</th>
                 <th>Book</th>
             </tr>
@@ -23,7 +24,7 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
                 <td>{{this.sales_has_books_id}}</td>
                 <td>{{this.sale}}</td>
                 <td>{{this.title}}</td>
-                <td><button onClick="deleteSalesHasBooks({{this.sales_has_books_id}})">Delete</button></td>
+                <td><button onclick="deleteSalesHasBooks({{this.sales_has_books_id}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>
@@ -33,10 +34,10 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
 
 <br>
 
-
-<form id="add-sales-has-books-form-ajax">
-    <fieldset class="fields">
-        <legend><strong>Add Book Sale</strong></legend>
+<fieldset class="fields">
+    <legend><strong>Add A Book To A Sale</strong></legend>
+    <p>Attach a book to a sale. Please enter all fields.</p>
+    <form id="add-sales-has-books-form-ajax"></form>
         <label> Sale ID</label> 
         <select name="input-sale" id="input-sale">
             <option>Select a Sale ID</option>
@@ -54,7 +55,41 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
         </select>
 
         <input class="btn" type="submit" value="Add">
-    </fieldset>
-</form>
+    </form>
+</fieldset>
 <script scr="./js/add_sales_has_books.js"></script>
 
+<br />
+
+<fieldset>
+    <legend><strong>Update A Book in a Sale</strong></legend>
+    <p>Please enter all fields</p>
+    <form id="update-sales-has-books-form-ajax">
+        <label for="update-books-saleID">Books In A Sale ID: </label>
+        <select name="update-books-saleID" id="update-books-saleID">
+            <option value="">Select an ID</option>
+            {{#each data}}
+            <option value="{{this.sales_has_books_id}}">{{this.sales_has_books_id}}</option>
+            {{/each}}
+        </select>
+
+        <label for="newSale">Sale ID:</label>
+        <select name="newSale" id="newSale">
+            <option>Select a Sale ID</option>
+            {{#each sales}}
+            <option>{{this.sale_id}}</option>
+            {{/each}}
+        </select>
+
+        <label for="newBook">Book:</label>
+        <select name="newBook" id="newBook">
+            <option>Select a Book</option>
+            {{#each books}}
+            <option value="{{this.book_id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
+
+        <input class="buttons" type="submit" />
+    </form>
+</fieldset>
+<script src="./js/update_sales_has_books.js"></script>

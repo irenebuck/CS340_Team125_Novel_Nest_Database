@@ -1,7 +1,9 @@
-// Citation for the following webpage:
-// Date: 3/1/2024
-// The following source was used to write the following code
-// Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+// Citation for the following webpage and database project:
+
+// A sample code from a similar front and backend CRUD implementation was used to write our project code.
+// Date: 3 / 18 / 2024
+// Sample code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+// Sample code authors / GitHub users: gkochera - George Kochera, Dr.Curry - currym - osu, Cortona1, and dmgs11
 
 
 // Get the objects we need to modify
@@ -34,6 +36,7 @@ addSaleForm.addEventListener("submit", function (e) {
         tax_collected: TaxValue,
         purchase_date: DateValue,
     };
+    console.log(data)
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -54,19 +57,14 @@ addSaleForm.addEventListener("submit", function (e) {
             inputDate.value = '';
 
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log(
-                "There was an error with the input. status: ",
-                xhttp.status,
-                " readystate: ",
-                xhttp.readyState
-            );
+            console.log("There was an error with the input.");
         }
     };
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
     location.reload();
-});
+})
 
 // Creates a single row from an Object representing a single record
 addRowToTable = (data) => {

@@ -289,16 +289,7 @@ app.post("/add-store-form-ajax", function (req, res) {
           console.log(error);
           res.sendStatus(400);
         } else {
-          let query3 = `SELECT * FROM Customers;`;
-          db.pool.query(query3, function (error, rows, fields) {
-            if (error) {
-              console.log(error);
-              res.sendStatus(400);
-            } else {
-              // Send the fetched data as the response
-              res.send(rows);
-            }
-          });
+          res.send(rows);
         }
       });
     }

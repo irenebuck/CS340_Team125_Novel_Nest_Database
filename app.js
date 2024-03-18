@@ -78,6 +78,7 @@ app.get("/customers", function (req, res) {
 app.get("/sales", function (req, res) {
   let query1 = "SELECT * FROM Sales;";
   let query2 = "SELECT * FROM Stores;";
+  let query3 = "SELECT * FROM Customers";
 
   db.pool.query(query1, function (error, rows, fields) {
     let sales = rows;
@@ -96,7 +97,15 @@ app.get("/sales", function (req, res) {
         return Object.assign(sale, { location: storemap[sale.location] });
       });
 
-      return res.render("sales", { data: sales, stores: stores });
+      db.pool.query(query3, function (error, rows, fields) {
+        let customers = rows;
+
+        return res.render("sales", {
+          data: sales,
+          stores: stores,
+          customers: customers,
+        });
+      });
     });
   });
 });

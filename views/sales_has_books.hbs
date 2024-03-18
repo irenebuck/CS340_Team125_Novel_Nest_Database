@@ -1,60 +1,69 @@
-{{!-- // Citation for the following webpage:
+{{! // Citation for the following webpage:
 // Date: 3/1/2024
 // The following source was used to write the following code
 // Code source:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
+https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data }}
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<br/>
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
+<br />
 
-<fieldset>
+<div>
+  <fieldset>
     <legend><strong>Books Sold</strong></legend>
     <table id="sale_books_table">
-        <thead>
-            <tr>
-                <th>Book Sale ID</th>
-                <th>Sale ID</th>
-                <th>Book</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each data}}
-            <tr data-value={{this.sales_has_books_id}}>
-                <td>{{this.sales_has_books_id}}</td>
-                <td>{{this.sale}}</td>
-                <td>{{this.title}}</td>
-                <td><button onClick="deleteSalesHasBooks({{this.sales_has_books_id}})">Delete</button></td>
-            </tr>
-            {{/each}}
-        </tbody>
+      <thead>
+        <tr>
+          <th>Book Sale ID</th>
+          <th>Sale ID</th>
+          <th>Book</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each data}}
+          <tr data-value={{this.sales_has_books_id}}>
+            <td>{{this.sales_has_books_id}}</td>
+            <td>{{this.sale}}</td>
+            <td>{{this.title}}</td>
+            <td><button
+                onclick="deleteSalesHasBooks({{this.sales_has_books_id}})"
+              >Delete</button></td>
+          </tr>
+        {{/each}}
+      </tbody>
     </table>
-</fieldset>
-<script scr="./js/delete_sales_has_books.js"></script>
+  </fieldset>
+</div>
 
-<br>
+<script src="./js/delete_sales_has_books.js"></script>
 
+<br />
 
-<form id="add-sales-has-books-form-ajax">
-    <fieldset class="fields">
-        <legend><strong>Add Book Sale</strong></legend>
-        <label> Sale ID</label> 
-        <select name="input-sale" id="input-sale">
-            <option>Select a Sale ID</option>
-            {{#each sales}}
-            <option>{{this.sale_id}}</option>
-            {{/each}}
-        </select>
+<div id="addSalesBooksDiv">
+  <fieldset>
+    <legend>Add Sales has Books</legend>
+    <p>Please enter all fields</p>
+    <form id="add-sales-has-books-form-ajax">
 
-        <label> Book </label>
-        <select name="input-book" id="input-book">
-            <option>Select a Book</option>
-            {{#each books}}
-            <option value="{{this.book_id}}">{{this.title}}</option>
-            {{/each}}
-        </select>
+      <label for="input-sale">Sale: </label>
+      <select name="input-sale" id="input-sale">
+        <option>Select a Sale ID</option>
+        {{#each sales}}
+          <option>{{this.sale_id}}</option>
+        {{/each}}
+      </select>
 
-        <input class="btn" type="submit" value="Add">
-    </fieldset>
-</form>
-<script scr="./js/add_sales_has_books.js"></script>
+      <label for="input-book">Book: </label>
+      <select name="input-book" id="input-book">
+        <option>Select a Book</option>
+        {{#each books}}
+          <option value="{{this.book_id}}">{{this.title}}</option>
+        {{/each}}
+      </select>
 
+      <input type="submit" />
+    </form>
+  </fieldset>
+</div>
+<script src="./js/add_sales_has_books.js"></script>

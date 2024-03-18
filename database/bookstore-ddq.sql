@@ -1,5 +1,4 @@
 -- Project Group 125
--- Step3 Draft
 -- Data Definition Queries
 
 SET FOREIGN_KEY_CHECKS = 0;

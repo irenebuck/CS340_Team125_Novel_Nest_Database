@@ -54,24 +54,22 @@ addSalesHasBooksForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    location.reload();
 });
 
-// Creates a single row from an Object
 addRowToTable = (data) => {
-
     // Get a reference to the current table on the pPrice and clear it out.
-    let currentTable = document.getElementById("sales_books_table");
+    let currentTable = document.getElementById("sale_books_table");
 
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1];
 
-    // Create a row and cells
+    // Create a row and 4 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let SaleCell = document.createElement("TD");
     let BookCell = document.createElement("TD");
+
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function () {
@@ -95,3 +93,4 @@ addRowToTable = (data) => {
     // Add the row to the table
     currentTable.appendChild(row);
 };
+

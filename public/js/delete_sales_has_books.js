@@ -4,7 +4,7 @@
 // Code source: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
 
 
-function deleteSale(sales_has_books_id) {
+function deleteSalesHasBooks(sales_has_books_id) {
     var link = '/delete-sale-has-books-ajax/';
     let data = {
         sales_has_books_id: sales_has_books_id

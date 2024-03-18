@@ -106,9 +106,11 @@ app.get("/sales", function (req, res) {
 });
 
 // renders the Sales_has_Books page
-app.get('/sales_has_books', function (req, res) {
+app.get("/sales_has_books", function (req, res) {
+    let query1 = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
+    FROM Sales_has_Books
+    INNER JOIN Books ON Sales_has_Books.book = Books.book_id;`;
 
-    let query1 = "SELECT * FROM Sales_has_Books;";
     let query2 = "SELECT * FROM Sales;";
     let query3 = "SELECT * FROM Books;";
 
@@ -121,13 +123,21 @@ app.get('/sales_has_books', function (req, res) {
             db.pool.query(query3, (error, rows, fields) => {
                 let books = rows;
 
-                return res.render("sales_has_books", { data: bookSales, sales: sales, books:books });
+                let bookmap = {};
+                books.map((book) => {
+                    let id = parseInt(book.book_id, 10);
+                    bookmap[id] = book["title"];
+                });
+
+                return res.render("sales_has_books", {
+                    data: bookSales,
+                    sales: sales,
+                    books: books,
+                });
             });
         });
     });
 });
-
-
 
 
 // POST ROUTES
@@ -194,6 +204,68 @@ app.post('/add-customer-form-ajax', function (req, res) {
     })
 });
 
+//add sales has books
+app.post("/add-sales-has-books-form-ajax", function (req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Sales_has_Books (sale, book) VALUES ('${data.sale}', '${data.book}')`;
+    db.pool.query(query1, function (error, result) {
+        // Check for errors
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If the insert operation was successful, fetch the updated data
+            let query2 = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
+            FROM Sales_has_Books
+            INNER JOIN Books ON Sales_has_Books.book = Books.book_id;`;
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    // Send the fetched data as the response
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+// add sale
+app.post('/add-sale-form-ajax', function (req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let parsedCustomer = parseInt(data.sale_customer);    
+    if (isNaN(parsedCustomer)) {
+        parsedCustomer = "NULL";
+    }
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', ${parsedCustomer}, '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
+    db.pool.query(query1, function (error, result) {
+        // Check for errors
+        if (error) {
+            res.sendStatus(400);
+        } else {
+            // If the insert operation was successful, fetch the updated data
+            let query2 = `SELECT * FROM Sales;`;
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    res.sendStatus(400);
+                } else {
+                    // Send the fetched data as the response
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
 // add store
 app.post("/add-store-form-ajax", function (req, res) {
     // Capture the incoming data and parse it back to a JS object
@@ -235,69 +307,9 @@ app.post("/add-store-form-ajax", function (req, res) {
 });
 
 
-// add sale
-app.post('/add-sale-form-ajax', function (req, res) {
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-
-    // Capture NULL values
-    let parsedCustomer = parseInt(data.sale_customer);    
-    if (isNaN(parsedCustomer)) {
-        parsedCustomer = "NULL";
-    }
-
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Sales(location, sale_customer, sales_no_tax, tax_collected, purchase_date) VALUES ('${data.location}', ${parsedCustomer}, '${data.sales_no_tax}', '${data.tax_collected}', '${data.purchase_date}')`;
-    db.pool.query(query1, function (error, result) {
-        // Check for errors
-        if (error) {
-            res.sendStatus(400);
-        } else {
-            // If the insert operation was successful, fetch the updated data
-            let query2 = `SELECT * FROM Sales;`;
-            db.pool.query(query2, function (error, rows, fields) {
-                if (error) {
-                    res.sendStatus(400);
-                } else {
-                    // Send the fetched data as the response
-                    res.send(rows);
-                }
-            });
-        }
-    });
-});
-
-//add sales has books
-app.post("/add-sales-has-books-form-ajax", function (req, res) {
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-    // Create the query and run it on the database
-    let query1 = `INSERT INTO Sales_has_Books (sale, book) VALUES ('${data.sale}', '${data.book}')`;
-    db.pool.query(query1, function (error, result) {
-        // Check for errors
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            // If the insert operation was successful, fetch the updated data
-            let query2 = `SELECT Sales_has_Books.sales_has_books_id, Sales_has_Books.sale, Books.title
-        FROM Sales_has_Books
-        INNER JOIN Books ON Sales_has_Books.book = Books.book_id;`;
-            db.pool.query(query2, function (error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    // Send the fetched data as the response
-                    res.send(rows);
-                }
-            });
-        }
-    });
-});
-
-
 // DELETE ROUTES
+
+// Delete a book
 // Books table Cascades on delete, so we don't need multiple queries
 app.delete('/delete-book-ajax/', function (req, res, next) {
     let data = req.body;
@@ -336,6 +348,27 @@ app.delete('/delete-customer-ajax/', function (req, res, next) {
     })
 });
 
+// Delete sales has books
+app.delete("/delete-sales-has-books-ajax/", function (req, res, next) {
+    let data = req.body;
+    let sales_has_books_id = parseInt(data.sales_has_books_id);
+    let deleteBook = `DELETE FROM Sales_has_Books WHERE sales_has_books_id = ?`;
+
+    // Run the query
+    db.pool.query(
+        deleteBook,
+        [sales_has_books_id],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(204);
+            }
+        }
+    );
+});
+
 // Delete a sale
 app.delete('/delete-sale-ajax/', function (req, res, next) {
     let data = req.body;
@@ -354,27 +387,6 @@ app.delete('/delete-sale-ajax/', function (req, res, next) {
         }
     })
 });
-
-// Delete sales has books
-app.delete("/delete-sales-has-books-ajax/", function (req, res, next) {
-    let data = req.body;
-    let sales_has_books_id = parseInt(data.sales_has_books_id);
-    let deleteBook = `DELETE FROM Sales_has_Books WHERE sales_has_books_id = ?`;
-    
-    db.pool.query(
-        deleteBook,
-        [sales_has_books_id],
-        function (error, rows, fields) {
-            if (error) {
-                console.log(error);
-                res.sendStatus(400);
-            } else {
-                res.sendStatus(204);
-            }
-        }
-    )
-});
-
 
 // Delete a store
 app.delete('/delete-store-ajax/', function (req, res, next) {
@@ -396,8 +408,8 @@ app.delete('/delete-store-ajax/', function (req, res, next) {
 });
 
 
-
 // UPDATE ROUTES
+
 // update a book
 app.put("/update-book-form-ajax", function (req, res, next) {
     console.log("putting book - app.js");

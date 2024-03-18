@@ -4,8 +4,8 @@
 // Code source:
 https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data --}}
 
-<br>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<br/>
 
 <fieldset>
     <legend><strong>Books Sold</strong></legend>
@@ -22,8 +22,8 @@ https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%2
             <tr data-value={{this.sales_has_books_id}}>
                 <td>{{this.sales_has_books_id}}</td>
                 <td>{{this.sale}}</td>
-                <td>{{this.book}}</td>
-                <td><button onClick="deleteBookSale({{this.customer_id}})">Delete</button></td>
+                <td>{{this.title}}</td>
+                <td><button onClick="deleteSalesHasBooks({{this.sales_has_books_id}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>
